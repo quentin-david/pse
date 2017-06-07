@@ -1,0 +1,4 @@
+services:
+#    fragoso.example:
+#        class: FragosoBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

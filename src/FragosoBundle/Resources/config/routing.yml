@@ -1,0 +1,3 @@
+fragoso_homepage:
+    path:     /
+    defaults: { _controller: FragosoBundle:Default:index }
