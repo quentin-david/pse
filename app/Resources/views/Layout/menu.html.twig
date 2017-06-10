@@ -14,22 +14,20 @@
 <div class="collapse navbar-collapse" id="navbar-menu">		
 	<ul class="nav navbar-nav">
 		
-		<li class=""><a href="#" class="" title="document">Catalogue</a></li>
+		<li class=""><a href="{{ path('catalogue_home') }}" class="" title="document">Catalogue</a></li>
+		
+		<li class=""><a href="{{ path('client_home') }}" class="" title="document">Clients</a></li>
 	
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="cartographie">Commandes...</a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="cartographie">Commandes</a>
 			<ul class="dropdown-menu">
+				<li><a href="#">Nouvelle</a></li>
 				<li><a href="#">En cours</a></li>
 				<li><a href="#">Terminées</a></li>
 			</ul>
 		</li>
 		
-		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Factures</a>
-			<ul class="dropdown-menu">
-				<li><a href="#">Deployment</a></li>
-			</ul>
-		</li>
+		<li class=""><a href="#" class="" title="document">Factures</a></li>
 		
 	</ul>
 	<ul class="nav navbar-nav navbar-right">
@@ -37,7 +35,7 @@
 				{% if not is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 					<li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
 				{% else %}
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="My Account"><img src="/pictures/img_avatar2.png" class="w3-circle" style="height:25px;width:25px" alt="Avatar"></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="My Account"><img src="{{ asset('pictures/img_avatar2.png') }}" class="w3-circle" style="height:25px;width:25px" alt="Avatar"></a>
 					<ul class="dropdown-menu">
 						<li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
 					</ul>

@@ -1,0 +1,35 @@
+{% extends ":Layout:layout.html.twig" %}
+
+{% block left_nav %}
+    <div class="list-group">
+        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Services</button></a>
+        <a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Categories</button></a>
+    </div>
+    
+    <div class="list-group launcher">
+        <a href="{{ path('catalogue_home') }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="retour">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+        </a>
+    </div>
+{% endblock %}
+
+{% block title %}
+	{% if categorie.libelle != '' %}
+		edition category "{{categorie.libelle}}"
+	{% else %}
+		new category
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}
+        <div class="form-group">
+            {{ form_label(formulaire.libelle, "Libelle", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.libelle) }}
+            </div>
+        </div>
+    {{ form_end(formulaire) }}
+{% endblock %}

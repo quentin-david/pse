@@ -1,3 +1,39 @@
 fragoso_homepage:
     path:     /
-    defaults: { _controller: FragosoBundle:Default:index }
+    defaults: { _controller: FragosoBundle:Home:index }
+    
+#######    Catalogue    ###############
+catalogue_home:
+    path: /catalogue
+    defaults: { _controller: FragosoBundle:Catalogue:index }
+ 
+## Categorie   
+creer_categorie:
+    path: /catalogue/categorie/edit
+    defaults: { _controller: FragosoBundle:Catalogue:editerCategorie }
+
+editer_categorie:
+    path: /catalogue/categorie/edit/{categorie_num}
+    defaults: { _controller: FragosoBundle:Catalogue:editerCategorie }
+    requirements:
+        categorie_num: \d+
+        
+supprimer_categorie:
+    path: /catalogue/categorie/del/{categorie_num}
+    defaults: { _controller: FragosoBundle:Catalogue:supprimerCategorie }
+    requirements:
+        categorie_num: \d+
+        
+## Services
+
+
+##########   Commandes   ############
+
+
+
+
+
+##########   Clients    #############
+client_home:
+    path: /client
+    defaults: { _controller: FragosoBundle:Client:index }

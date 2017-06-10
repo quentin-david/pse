@@ -1,5 +1,5 @@
 {# On étend notre layout #}
-{% extends "FragosoBundle:Layout:layout.html.twig" %}
+{% extends ":Layout:layout.html.twig" %}
 
 {# Dans notre layout, il faut définir le block body #}
 {% block content %}
@@ -15,6 +15,7 @@
 
   {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
   {% block fos_user_content %}
+
   {% endblock fos_user_content %}
 
 {% endblock %}
