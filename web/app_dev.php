@@ -26,7 +26,7 @@ $kernel = new AppKernel('dev', true);
 if (PHP_VERSION_ID < 70000) {
     $kernel->loadClassCache();
 }
-Request::setTrustedHeaderName(Request::HEADER_FORWARDED, 'X-Forwarded');
+//Request::setTrustedHeaderName(Request::HEADER_FORWARDED, 'X-Forwarded');
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
