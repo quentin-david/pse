@@ -3,13 +3,9 @@
 security:
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
-    #providers:
-        #in_memory:
-            #memory: ~
     providers:
         main:
-            id: fos_user.user_provider.username
-      
+            id: fos_user.user_provider.username    
       
     encoders:
         UserBundle\Entity\User: sha512
@@ -25,7 +21,6 @@ security:
 
         main:
             pattern:      ^/
-            #anonymous:    true
             anonymous:    ~
             provider:     main
             form_login:
