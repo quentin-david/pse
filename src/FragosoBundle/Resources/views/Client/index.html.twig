@@ -6,8 +6,8 @@
     </div>
     
     <div class="list-group launcher">
-        <a href="#">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="ajout client">
+        <a href="{{ path('creer_client') }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="ajouter client">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
         </a>
@@ -17,7 +17,10 @@
 {% block title %} Clients {% endblock %}
 
 {% block content %}
-	<h3>Liste des clients</h3>
+	<h3>
+		Liste des clients
+		<span class="badge">{{liste_clients|length}}</span>
+	</h3>
     
 
     <table class="table table-striped table-bordered">
@@ -25,27 +28,31 @@
             <th>Actions</th>
             <th>Nom</th>
             <th>Prenom</th>
-            <th>Mail</th>
+            <th>Telephone</th>
+            <th>Adresse</th>
             <th>Status</th>
         </tr>
+        {% for client in liste_clients %}
         <tr>
             <td>
-                <a href="#">
+                <a href="{{path('editer_client', {'client_num': client.id})}}">
                     <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="editer client">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                 </a>
-                <a href="#">
+                <a href="{{path('supprimer_client', {'client_num': client.id})}}">
                     <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="supprimer client">
                         <span class="glyphicon glyphicon-remove"></span>
                     </button>
                 </a>
             </td>
-            <td>David</td>
-            <td>Quentin</td>
-            <td>quentin.david@live.ru</td>
+            <td>{{client.nom}}</td>
+            <td>{{client.prenom}}</td>
+            <td>{{client.numPortable}}</td>
+            <td>{{client.adresse}} à {{client.ville}}</td>
             <td>Débiteur de 100 euros</td>
         </tr>
+        {% endfor %}
     </table>
 
 {% endblock %}

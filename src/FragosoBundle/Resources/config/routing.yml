@@ -37,3 +37,19 @@ supprimer_categorie:
 client_home:
     path: /client
     defaults: { _controller: FragosoBundle:Client:index }
+
+creer_client:
+    path: /client/edit
+    defaults: { _controller: FragosoBundle:Client:editerClient }
+   
+editer_client:
+    path: /client/edit/{client_num}
+    defaults: { _controller: FragosoBundle:Client:editerClient }
+    requirements:
+        client_num: \d+
+
+supprimer_client:
+    path: /client/del/{client_num}
+    defaults: { _controller: FragosoBundle:Client:supprimerClient }
+    requirements:
+        client_num: \d+

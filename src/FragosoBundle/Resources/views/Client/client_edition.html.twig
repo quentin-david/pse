@@ -1,0 +1,48 @@
+{% extends ":Layout:layout.html.twig" %}
+
+{% block left_nav %}
+    <div class="list-group">
+        <a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Débiteurs</button></a>
+    </div>
+    
+    <div class="list-group launcher">
+        <a href="{{ path('client_home') }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Retour liste client">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+        </a>
+    </div>
+{% endblock %}
+
+{% block title %}
+	{% if client.nom != '' %}
+		edition client "{{client.prenom}} {{client.nom}}"
+	{% else %}
+		new client
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}
+	{#
+        <div class="form-group">
+            {{ form_label(formulaire.civilite, "Civilite", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.civilite) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.prenom, "Prenom", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.prenom) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.nom, "Nom", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.nom) }}
+            </div>
+        </div>
+        #}
+    {{ form_end(formulaire) }}
+{% endblock %}

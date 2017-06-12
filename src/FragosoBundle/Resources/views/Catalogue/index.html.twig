@@ -24,9 +24,12 @@
         Categories
         <span class="badge">{{liste_categories|length}}</span>
     </h4>
-    <ul>
+    
+    <div class="row">
+    <ul class="list-group">	
     {% for categorie in liste_categories %}
-        <li>
+		<div class="col-lg-4">
+        <li class="list-group-item" style="text-align: center">
             {{categorie.libelle}}
             <a href="{{ path('editer_categorie', {'categorie_num': categorie.id}) }}">
                 <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="editer categorie">
@@ -39,8 +42,10 @@
                 </button>
             </a>
         </li>
+        </div>
     {% endfor %}
     </ul>
+    </div>
     
     <h4>Services</h4>
 {% endblock %}
