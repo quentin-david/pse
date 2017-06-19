@@ -1,26 +1,11 @@
 {% extends ":Layout:layout.html.twig" %}
 
-{% block left_nav %}
-    <div class="list-group">
-        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Services</button></a>
-        <a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Categories</button></a>
-    </div>
-    
-    <div class="list-group launcher">
-		<a href="{{path('creer_article') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="ajout article">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
-        </a>
-    </div>
-{% endblock %}
-
-{% block title %} Catalogue des services {% endblock %}
+{% block title %} Catalogue {% endblock %}
 
 {% block content %}
  
     <h3>
-        Categories de services
+        Categories
         <span class="badge">{{liste_categories|length}}</span>
 		<a href="{{path('creer_categorie') }}">
             <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajout categorie">
@@ -55,6 +40,11 @@
     <h3>
         Articles
         <span class="badge">{{liste_articles|length}}</span>
+        <a href="{{path('creer_article') }}">
+            <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajout article">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </a>
     </h3>
 	<div class="row">
     <ul class="list-group">	
