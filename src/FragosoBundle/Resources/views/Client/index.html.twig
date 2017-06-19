@@ -30,7 +30,7 @@
             <th>Prenom</th>
             <th>Telephone</th>
             <th>Adresse</th>
-            <th>Status</th>
+            <th>Solde</th>
         </tr>
         {% for client in liste_clients %}
         <tr>
@@ -46,11 +46,15 @@
                     </button>
                 </a>
             </td>
-            <td>{{client.nom}}</td>
-            <td>{{client.prenom}}</td>
+            <td>
+				<a href="{{path('afficher_client', {'client_num': client.id})}}">
+					{{client.nom|upper}}
+				</a>
+			</td>
+            <td>{{client.prenom|capitalize}}</td>
             <td>{{client.numPortable}}</td>
-            <td>{{client.adresse}} à {{client.ville}}</td>
-            <td>Débiteur de 100 euros</td>
+            <td>{{client.adresse}} à {{client.ville|capitalize}}</td>
+            <td>{{client.getSolde}} euros</td>
         </tr>
         {% endfor %}
     </table>

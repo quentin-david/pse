@@ -24,11 +24,30 @@ supprimer_categorie:
     requirements:
         categorie_num: \d+
         
-## Services
+## Articles
+creer_article:
+    path: /catalogue/article/edit
+    defaults: { _controller: FragosoBundle:Catalogue:editerArticle }
+
+editer_article:
+    path: /catalogue/article/edit/{article_num}
+    defaults: { _controller: FragosoBundle:Catalogue:editerArticle }
+    requirements:
+        article_num: \d+
 
 
 ##########   Commandes   ############
+commande_home:
+    path: /commande
+    defaults: { _controller: FragosoBundle:Commande:index }
 
+lister_commande:
+    path: /commande/liste/{commande_etat}
+    defaults: { _controller: FragosoBundle:Commande:index }
+
+creer_commande:
+    path: /commande/edit
+    defaults: { _controller: FragosoBundle:Commande:editerCommande }
 
 
 
@@ -51,5 +70,11 @@ editer_client:
 supprimer_client:
     path: /client/del/{client_num}
     defaults: { _controller: FragosoBundle:Client:supprimerClient }
+    requirements:
+        client_num: \d+
+
+afficher_client:
+    path: /client/detail/{client_num}
+    defaults: { _controller: FragosoBundle:Client:afficherClient }
     requirements:
         client_num: \d+

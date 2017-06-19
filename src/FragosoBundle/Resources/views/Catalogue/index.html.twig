@@ -7,8 +7,8 @@
     </div>
     
     <div class="list-group launcher">
-        <a href="{{path('creer_categorie') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="ajout categorie">
+		<a href="{{path('creer_article') }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="ajout article">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
         </a>
@@ -18,26 +18,30 @@
 {% block title %} Catalogue des services {% endblock %}
 
 {% block content %}
-	<h3>Liste des services et produits</h3>
-    
-    <h4>
-        Categories
+ 
+    <h3>
+        Categories de services
         <span class="badge">{{liste_categories|length}}</span>
-    </h4>
+		<a href="{{path('creer_categorie') }}">
+            <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajout categorie">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </a>
+    </h3>
     
     <div class="row">
     <ul class="list-group">	
     {% for categorie in liste_categories %}
 		<div class="col-lg-4">
         <li class="list-group-item" style="text-align: center">
-            {{categorie.libelle}}
+            {{categorie.libelle|capitalize}}
             <a href="{{ path('editer_categorie', {'categorie_num': categorie.id}) }}">
-                <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="editer categorie">
+                <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="editer categorie"  style="float: right">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </button>
             </a>
             <a href="{{ path('supprimer_categorie', {'categorie_num': categorie.id}) }}">
-                <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="supprimer categorie">
+                <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="supprimer categorie" style="float: right">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
             </a>
@@ -47,5 +51,16 @@
     </ul>
     </div>
     
-    <h4>Services</h4>
+	{# ARTCICLES #}
+    <h3>
+        Articles
+        <span class="badge">{{liste_articles|length}}</span>
+    </h3>
+	<div class="row">
+    <ul class="list-group">	
+    {% for article in liste_articles %}
+		{% include('FragosoBundle:Catalogue:snippet_article.html.twig') %}
+    {% endfor %}
+    </ul>
+    </div>
 {% endblock %}

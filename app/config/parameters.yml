@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: fragoso_qt
+    database_user: fragoso_qt
+    database_password: fragoso_qt
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: 8754e4d9323d4283fc45504333781b40a0d892a6

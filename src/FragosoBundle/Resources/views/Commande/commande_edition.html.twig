@@ -1,0 +1,140 @@
+{% extends ":Layout:layout.html.twig" %}
+
+{% block left_nav %}
+    <div class="list-group">
+        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Commandes</button></a>
+    </div>
+    
+    <div class="list-group launcher">
+        <a href="{{ path('commande_home') }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="retour">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+        </a>
+    </div>
+{% endblock %}
+
+{% block title %}
+	{% if commande.id != '' %}
+		edition commande "{{commande.id}}"
+	{% else %}
+		nouvelle commande
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{#{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}    
+    {{ form_end(formulaire) }}#}
+	
+	<form class="form-inline" action="{{ path('creer_commande') }}" method="post" }}>
+		{{ form_errors(formulaire) }}
+	
+		<div class="form-group">
+			{{ form_label(formulaire.client) }}
+			{{ form_errors(formulaire.client) }}
+			{{ form_widget(formulaire.client) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(formulaire.remise) }}
+			{{ form_errors(formulaire.remise) }}
+			{{ form_widget(formulaire.remise) }}
+		</div>
+		<div class="form-group">
+			{{ form_label(formulaire.etat) }}
+			{{ form_errors(formulaire.etat) }}
+			{{ form_widget(formulaire.etat) }}
+		</div>
+		
+		<a href="#" id="add_article" class="btn btn-default">Ajouter un article</a>
+		
+		<div id="articles_prototype" class="articles" data-prototype="{{ form_widget(formulaire.articles.vars.prototype)|e('html_attr') }}">
+			{% for article in formulaire.articles %}
+				<div class="form-group">
+					{{form_label(article.libelle)}}
+					{{form_errors(article.libelle)}}
+					{{form_widget(article.libelle)}}
+				</div>
+				<div class="form-group">
+					{{form_label(article.quantite)}}
+					{{form_errors(article.quantite)}}
+					{{form_widget(article.quantite)}}
+				</div>
+			{% endfor %}
+		</div>
+		
+		
+	
+		{{ form_rest(formulaire) }}
+	</form>
+	
+    
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+{# Voici le script en question : #}
+<script type="text/javascript">
+  $(document).ready(function() {
+    // On récupère la balise <div> qui contient l'attribut « data-prototype » qui nous intéresse.
+    //var $container = $('div#commande_articles');
+	var $container = $('div#articles_prototype');
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $('#add_article').click(function(e) {
+      addArticle($container);
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un.
+    if (index == 0) {
+      addArticle($container);
+    } else {
+      // S'il existe déjà des articles, on ajoute un lien de suppression pour chacun d'entre eux
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire CommandeDetailType
+    function addArticle($container) {
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var template = $container.attr('data-prototype')
+        .replace(/__name__label__/g, 'Article n°' + (index+1))
+        .replace(/__name__/g,        index)
+      ;
+
+      // On crée un objet jquery qui contient ce template
+      var $prototype = $(template);
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $container.append($prototype);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    // La fonction qui ajoute un lien de suppression d'un article
+    function addDeleteLink($prototype) {
+      // Création du lien
+      var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien pour effectivement supprimer l'article
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+  });
+</script>
+{% endblock %}

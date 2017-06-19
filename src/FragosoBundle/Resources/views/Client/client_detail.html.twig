@@ -1,0 +1,33 @@
+{% extends ":Layout:layout.html.twig" %}
+
+{% block left_nav %}
+    <div class="list-group">
+        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Commandes</button></a>
+    </div>
+    
+    <div class="list-group launcher">
+        <a href="{{ path('client_home') }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="retour">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+        </a>
+    </div>
+{% endblock %}
+
+{% block title %} Client {{client.prenom|capitalize}} {{client.nom|upper}} {% endblock %}
+
+{% block content %}
+	<h3>Solde</h3>
+		A ce jour débiteur de : {{client.getSolde}} euro
+    <h3>Ses commandes</h3>
+    <div class="row">
+    {% if client.commandes|length > 0 %}
+		{% for commande in client.commandes %}
+			{% include("FragosoBundle:Commande:snippet_commande.html.twig") %}
+		{% endfor %}
+	{% else %}
+		<div class="alert alert-info">pas de commande encore</div>
+	{% endif %}
+	</div>
+    
+{% endblock %}

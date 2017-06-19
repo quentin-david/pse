@@ -64,8 +64,28 @@ class Client
      * @Assert\Regex("/([0-9][0-9]\.){4}[0-9][0-9]/")
      */
     private $numPortable;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="FragosoBundle\Entity\Commande", mappedBy="client")
+     */
+    private $commandes;
 
 
+	/**
+	 * Retourne le solde du client : la somme des commandes qui n'ont pas encore été payées
+	 */
+	public function getSolde()
+	{
+		$solde = 0;
+		foreach($this->getCommandes() as $commande){
+			if($commande->getEtat() == 'encours'){
+				$solde += $commande->getPrixTotalTTC();
+			}
+		}
+		return $solde;
+	}
+	 
+	 
     /**
      * Get id
      *
@@ -98,6 +118,14 @@ class Client
     public function getCivilite()
     {
         return $this->civilite;
+    }
+    
+    /**
+     * Get nom complet
+     */
+    public function getNomComplet()
+    {
+        return $this->prenom.' '.$this->nom; 
     }
 
     /**
@@ -219,5 +247,46 @@ class Client
     {
         return $this->numPortable;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->commandes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+
+    /**
+     * Add commande
+     *
+     * @param \FragosoBundle\Entity\Commande $commande
+     *
+     * @return Client
+     */
+    public function addCommande(\FragosoBundle\Entity\Commande $commande)
+    {
+        $this->commandes[] = $commande;
+
+        return $this;
+    }
+
+    /**
+     * Remove commande
+     *
+     * @param \FragosoBundle\Entity\Commande $commande
+     */
+    public function removeCommande(\FragosoBundle\Entity\Commande $commande)
+    {
+        $this->commandes->removeElement($commande);
+    }
+
+    /**
+     * Get commandes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommandes()
+    {
+        return $this->commandes;
+    }
+}

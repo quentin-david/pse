@@ -28,6 +28,10 @@ class Categorie
      */
     private $libelle;
 
+    /**
+     * @ORM\OneToMany(targetEntity="FragosoBundle\Entity\Article", mappedBy="categorie")
+     */
+    private $articles;
 
     /**
      * Get id
@@ -62,5 +66,45 @@ class Categorie
     {
         return $this->libelle;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add article
+     *
+     * @param \FragosoBundle\Entity\Article $article
+     *
+     * @return Categorie
+     */
+    public function addArticle(\FragosoBundle\Entity\Article $article)
+    {
+        $this->articles[] = $article;
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \FragosoBundle\Entity\Article $article
+     */
+    public function removeArticle(\FragosoBundle\Entity\Article $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+}

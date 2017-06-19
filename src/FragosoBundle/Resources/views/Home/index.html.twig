@@ -20,9 +20,13 @@
 
 {% block content %}
 	
-	<h4>Commandes en cours</h4>
-		Rappel des commandes en cours
+	<h3>Commandes en cours</h3>
+		<div class="row">
+		{% for commande in liste_commandes_encours %}
+			{% include("FragosoBundle:Commande:snippet_commande.html.twig") %}
+		{% endfor %}
+		</div>
 		
-	<h4>Clients débiteurs</h4>
+	<h3>Clients débiteurs</h3>
 		Rappel des mauvais payeurs 
 {% endblock %}

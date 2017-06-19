@@ -6,9 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FragosoBundle\Entity\Client;
 use FragosoBundle\Form\Type\ClientType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ClientController extends Controller
 {
+	/**
+    * @Security("has_role('ROLE_ADMIN')")
+    */
     public function indexAction()
     {
 		$em = $this->getDoctrine()->getManager();
@@ -22,6 +26,7 @@ class ClientController extends Controller
     
     /*
      * Ajout ou edition d'un client
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function editerClientAction(Request $request, $client_num=null)
     {
@@ -59,6 +64,7 @@ class ClientController extends Controller
     
     /*
      * Suppression d'un client (avec demande de confirmation)
+     * @Security("has_role('ROLE_ADMIN')")
 	 */
 	public function supprimerClientAction(Request $request,$client_num)
 	{
@@ -81,5 +87,20 @@ class ClientController extends Controller
         return $this->render('FragosoBundle:Client:client_suppression.html.twig',array(
                                     'client' => $client_a_supprimer
                             ));
+	}
+	
+	/**
+	 * Afficher les details d'un client (commandes, balance)
+	 * @Security("has_role('ROLE_ADMIN')")
+	 */
+	public function afficherClientAction(Request $request, $client_num)
+	{
+		//Entity Manager
+        $em = $this->getDoctrine()->getManager();
+		$client = $em->getRepository('FragosoBundle:Client')->find($client_num);
+		
+		return $this->render('FragosoBundle:Client:client_detail.html.twig', array(
+									'client' => $client,
+							));
 	}
 }

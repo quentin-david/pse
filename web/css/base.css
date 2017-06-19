@@ -63,4 +63,16 @@ table th, table td {
     margin-bottom: 0px;
 }
 
+/* Commandes  */
 
+.ligne-commande {
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 5px;
+}
+
+.ligne-commande > div {
+    text-align: center;
+    vertical-align: middle;
+}

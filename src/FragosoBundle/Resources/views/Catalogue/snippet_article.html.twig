@@ -1,0 +1,22 @@
+<div class="col-lg-4">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="text-align: center">
+            {{article.libelle|capitalize}}
+            <a href="{{path('editer_article', {'article_num': article.id}) }}">
+                <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="editer article" style="float: right">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </a>
+            <a href="#">
+                <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="supprimer article" style="float: right">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </a>
+        </div>
+        <div class="panel-body">
+            Categorie : {{article.categorie.libelle|capitalize}} <br>
+            Prix : {{article.prix}} euros
+            (TVA : {{article.tva}} %)
+        </div>
+    </div>
+</div>

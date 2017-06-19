@@ -18,14 +18,17 @@
 		
 		<li class=""><a href="{{ path('client_home') }}" class="" title="document">Clients</a></li>
 	
+		<li class=""><a href="{{ path('commande_home') }}" class="" title="document">Commandes</a></li>
+		{#
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown" title="cartographie">Commandes</a>
 			<ul class="dropdown-menu">
-				<li><a href="#">Nouvelle</a></li>
-				<li><a href="#">En cours</a></li>
-				<li><a href="#">Terminées</a></li>
+				<li><a href="{{path('creer_commande')}}">Nouvelle</a></li>
+				<li><a href="{{path('commande_home')}}">Toutes</a></li>
+				<li><a href="{{path('commande_encours')}}">En cours</a></li>
 			</ul>
 		</li>
+		#}
 		
 		<li class=""><a href="#" class="" title="document">Factures</a></li>
 		

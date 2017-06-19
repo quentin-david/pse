@@ -13,3 +13,9 @@ body {
 .navbar-inverse .navbar-header > a {
     color: #fff;
 }
+
+
+.panel-heading {
+    border-color: #ddd;
+    background-color: #d1dae0 !important;
+}

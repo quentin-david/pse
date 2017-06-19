@@ -5,7 +5,9 @@ namespace FragosoBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FragosoBundle\Entity\Categorie;
+use FragosoBundle\Entity\Article;
 use FragosoBundle\Form\Type\CategorieType;
+use FragosoBundle\Form\Type\ArticleType;
 
 class CatalogueController extends Controller
 {
@@ -14,11 +16,13 @@ class CatalogueController extends Controller
         //Entity Manager
         $em = $this->getDoctrine()->getManager();
         
-        //Liste des toutes les categories
+        //Liste des toutes les categories et articles
         $liste_categories = $em->getRepository('FragosoBundle:Categorie')->findAll();
+		$liste_articles = $em->getRepository('FragosoBundle:Article')->findAll();
         
         return $this->render('FragosoBundle:Catalogue:index.html.twig', array(
-                                    'liste_categories' => $liste_categories                                                  
+                                    'liste_categories' => $liste_categories,
+									'liste_articles' => $liste_articles,
                             ));
     }
     
@@ -84,4 +88,43 @@ class CatalogueController extends Controller
                                     'categorie' => $categorie_a_supprimer
                             ));
 	}
+	
+	/**********************   ARticles   *****************/
+	
+	/*
+     * Ajout ou edition d'une categorie
+     */
+    public function editerArticleAction(Request $request, $article_num=null)
+    {
+        //Entity Manager
+        $em = $this->getDoctrine()->getManager();
+        
+        //Creation d'un objet de type Categorie
+        if($article_num === null){
+            $article = new Article;
+        }else{
+            $article = $em->getRepository('FragosoBundle:Article')->find($article_num);
+        }
+        
+        // Creation du formulaire générique de création d'un article
+		$formulaire = $this->createForm(ArticleType::class, $article);
+        
+        //Enregistrement en base du formulaire
+        if($request->isMethod('POST')){
+            $formulaire->handleRequest($request);
+            if($formulaire->isValid()){
+                $em->persist($article);
+                $em->flush();
+                
+				// Redirection vers la page catalogue
+                return $this->redirectToRoute('catalogue_home');
+            }
+        }        
+        
+        return $this->render('FragosoBundle:Catalogue:article_edition.html.twig', array(
+                                    'formulaire' => $formulaire->createView(),
+                                    'article' => $article,
+                            ));
+    }
+	
 }

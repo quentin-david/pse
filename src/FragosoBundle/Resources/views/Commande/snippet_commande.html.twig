@@ -1,0 +1,28 @@
+<div class="col-lg-12 ligne-commande">
+    <div class="col-lg-3 ligne-commande-client">
+        <h5>{{commande.client.prenom}} {{commande.client.nom}} ({{commande.etat}})</h5>
+    </div>
+    
+    <div class="col-lg-5">
+        <h5>{{commande.dateCommande|date}} [{{commande.getAge|date}}]</h5>
+    </div>
+    
+    <div class="col-lg-3">
+    	{% if commande.getPrixRemise == 0 %}
+			Total de la commande :<br> {{commande.getPrixTotalTTC}} euros
+		{% else %}
+			Total de la commande :<br> {{commande.getPrixTotalAvantRemiseTTC}} - {{commande.getPrixRemise}} = {{commande.getPrixTotalTTC}} euros
+		{% endif %}
+    </div>
+    
+    <div class="col-lg-5  col-lg-offset-3">
+        <ul>
+        {% for article in commande.articles %}
+            <li>{{article.quantite}} x {{article.article.libelle}}
+            ({{article.getPrixTotalTTC}} euros) </li>
+        {% endfor %}
+        </ul>
+    </div>
+    
+	
+</div>
