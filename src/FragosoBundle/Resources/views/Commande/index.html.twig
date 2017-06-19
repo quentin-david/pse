@@ -27,9 +27,40 @@
 {% block content %}
 	<div class="row">
 	{% if liste_commandes %}
+		<table class="table table-bordered table-striped">
+			<tr>
+				<th>Action</th>
+				<th>N° commande</th>
+				<th>Client</th>
+				<th>Date</th>
+				<th>Nb article</th>
+				<th>Montant</th>
+				<th>Remise</th>
+			</tr>
 		{% for commande in liste_commandes %}
-			{% include("FragosoBundle:Commande:snippet_commande.html.twig") %}
+			<tr>
+				<td>
+					<a href="#">
+						<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Nouvelle commande">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</button>
+					</a>
+					<a href="#">
+						<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Nouvelle commande">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</a>
+				</td>
+				<td>{{commande.id}}</td>
+				<td>{{commande.client.prenom}} {{commande.client.nom}}</td>
+				<td>{{commande.dateCommande|date}}</td>
+				<td>{{commande.articles|length}}</td>
+				<td>{{commande.getPrixTotalTTC}}</td>
+				<td>{{commande.getPrixRemise}}</td>
+			</tr>
+			{# include("FragosoBundle:Commande:snippet_commande.html.twig") #}
 		{% endfor %}
+		</table>
 	{% else %}
 		<div class="alert alert-info">pas de commande encore</div>
 	{% endif %}

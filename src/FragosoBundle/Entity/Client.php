@@ -50,6 +50,14 @@ class Client
      */
     private $adresse;
 
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="code_postal", type="string", length=5)
+     */
+    private $codePostal;
+    
+    
     /**
      * @var string
      *
@@ -64,6 +72,13 @@ class Client
      * @Assert\Regex("/([0-9][0-9]\.){4}[0-9][0-9]/")
      */
     private $numPortable;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="remise", type="integer")
+     */
+    private $remise;
     
     /**
      * @ORM\OneToMany(targetEntity="FragosoBundle\Entity\Commande", mappedBy="client")
@@ -288,5 +303,53 @@ class Client
     public function getCommandes()
     {
         return $this->commandes;
+    }
+
+    /**
+     * Set codePostal
+     *
+     * @param string $codePostal
+     *
+     * @return Client
+     */
+    public function setCodePostal($codePostal)
+    {
+        $this->codePostal = $codePostal;
+
+        return $this;
+    }
+
+    /**
+     * Get codePostal
+     *
+     * @return string
+     */
+    public function getCodePostal()
+    {
+        return $this->codePostal;
+    }
+
+    /**
+     * Set remise
+     *
+     * @param integer $remise
+     *
+     * @return Client
+     */
+    public function setRemise($remise)
+    {
+        $this->remise = $remise;
+
+        return $this;
+    }
+
+    /**
+     * Get remise
+     *
+     * @return integer
+     */
+    public function getRemise()
+    {
+        return $this->remise;
     }
 }
