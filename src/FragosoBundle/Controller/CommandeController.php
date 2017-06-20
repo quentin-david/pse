@@ -35,10 +35,12 @@ class CommandeController extends Controller
      * Ajout ou edition d'une commande
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function editerCommandeAction(Request $request, $commande_num=null)
+    public function editerCommandeAction(Request $request, $client_num=null, $commande_num=null)
     {
         //Entity Manager
         $em = $this->getDoctrine()->getManager();
+        
+        $client = $em->getRepository('FragosoBundle:Client')->find($client_num);
         
         //Creation d'un objet de type Categorie
         if($commande_num === null){
@@ -49,11 +51,16 @@ class CommandeController extends Controller
         
         // Creation du formulaire générique de création d'une commande
 		$formulaire = $this->createForm(CommandeType::class, $commande);
+		// On met le champ remise à la valeur par défaut du client
+        $formulaire->getData()->setRemise($client->getRemise());
+        $formulaire->setData($formulaire->getData());
+        
         
         //Enregistrement en base du formulaire
         if($request->isMethod('POST')){
             $formulaire->handleRequest($request);
             if($formulaire->isValid()){
+				$commande->setClient($client);
                 $commande->setEtat('encours');
                 foreach ($formulaire->get('articles')->getData() as $article){
                     $article->setPrixApplique($article->getArticle()->getPrix());
@@ -70,6 +77,7 @@ class CommandeController extends Controller
         
         return $this->render('FragosoBundle:Commande:commande_edition.html.twig', array(
                                     'formulaire' => $formulaire->createView(),
+                                    'client' => $client,
                                     'commande' => $commande
                             ));
     }

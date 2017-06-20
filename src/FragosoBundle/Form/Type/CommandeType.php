@@ -19,16 +19,7 @@ class CommandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('client',  EntityType::class, array(
-							'class' => 'FragosoBundle:Client',
-							'choice_label' => 'nomComplet',
-			))
             ->add('remise')
-            //->add('etat', ChoiceType::class, array(
-            //            'choices' => array(
-            //                'En cours' => 'encours',
-            //                'Terminée' => 'terminee',
-            //            )))
             ->add('articles', CollectionType::class, array(
 				'entry_type'   => CommandeDetailType::class,
 				'allow_add'    => true,

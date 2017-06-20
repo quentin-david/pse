@@ -11,13 +11,13 @@
 		{% endif %}
 	</div>	
     
-    <div class="list-group launcher">
+    {#<div class="list-group launcher">
         <a href="{{ path('creer_commande') }}">
             <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Nouvelle commande">
                 <span class="glyphicon glyphicon-plus"></span>
             </button>
         </a>
-    </div>
+    </div>#}
 {% endblock %}
 
 {% block title %}
@@ -40,19 +40,23 @@
 		{% for commande in liste_commandes %}
 			<tr>
 				<td>
-					<a href="#">
-						<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Nouvelle commande">
+					<a href="{{ path('editer_commande', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
+						<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Editer commande">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</button>
 					</a>
 					<a href="#">
-						<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Nouvelle commande">
+						<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Supprimer commande">
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
 					</a>
 				</td>
 				<td>{{commande.id}}</td>
-				<td>{{commande.client.prenom}} {{commande.client.nom}}</td>
+				<td>
+					<a href="{{ path('afficher_client', {'client_num': commande.client.id}) }}">
+						{{commande.client.prenom}} {{commande.client.nom}}
+					</a>
+				</td>
 				<td>{{commande.dateCommande|date}}</td>
 				<td>{{commande.articles|length}}</td>
 				<td>{{commande.getPrixTotalTTC}}</td>

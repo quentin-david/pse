@@ -7,8 +7,15 @@
     
     <div class="list-group launcher">
         <a href="{{ path('client_home') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="retour">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Retour liste client">
                 <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+        </a>
+    </div>
+    <div class="list-group launcher">
+        <a href="{{ path('creer_commande', {'client_num': client.id}) }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="creer commande">
+                <span class="glyphicon glyphicon-plus"></span>
             </button>
         </a>
     </div>

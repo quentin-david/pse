@@ -46,11 +46,17 @@ lister_commande:
     defaults: { _controller: FragosoBundle:Commande:index }
 
 creer_commande:
-    path: /commande/edit
+    path: /client/{client_num}/commande/edit
     defaults: { _controller: FragosoBundle:Commande:editerCommande }
+    requirements:
+        client_num: \d+
 
-
-
+editer_commande:
+    path: /client/{client_num}/commande/edit/{commande_num}
+    defaults: { _controller: FragosoBundle:Commande:editerCommande }
+    requirements:
+        client_num: \d+
+        commande_num: \d+
 
 ##########   Clients    #############
 client_home:
