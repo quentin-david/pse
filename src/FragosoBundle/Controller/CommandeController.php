@@ -54,7 +54,7 @@ class CommandeController extends Controller
         if($request->isMethod('POST')){
             $formulaire->handleRequest($request);
             if($formulaire->isValid()){
-                //$em->persist($commande);
+                $commande->setEtat('encours');
                 foreach ($formulaire->get('articles')->getData() as $article){
                     $article->setPrixApplique($article->getArticle()->getPrix());
                     $article->setTvaAppliquee($article->getArticle()->getTva());

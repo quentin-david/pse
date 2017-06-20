@@ -24,11 +24,11 @@ class CommandeType extends AbstractType
 							'choice_label' => 'nomComplet',
 			))
             ->add('remise')
-            ->add('etat', ChoiceType::class, array(
-                        'choices' => array(
-                            'En cours' => 'encours',
-                            'Terminée' => 'terminee',
-                        )))
+            //->add('etat', ChoiceType::class, array(
+            //            'choices' => array(
+            //                'En cours' => 'encours',
+            //                'Terminée' => 'terminee',
+            //            )))
             ->add('articles', CollectionType::class, array(
 				'entry_type'   => CommandeDetailType::class,
 				'allow_add'    => true,

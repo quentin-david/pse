@@ -40,11 +40,13 @@
     <h3>
         Articles
         <span class="badge">{{liste_articles|length}}</span>
-        <a href="{{path('creer_article') }}">
-            <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajout article">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
-        </a>
+        {% if liste_categories|length > 0 %}
+			<a href="{{path('creer_article') }}">
+				<button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajout article">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</a>
+		{% endif %}
     </h3>
 	<div class="row">
     <ul class="list-group">	

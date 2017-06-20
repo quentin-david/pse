@@ -29,7 +29,9 @@ class ClientType extends AbstractType
             ->add('prenom')
             ->add('adresse')
             ->add('ville')
+            ->add('codePostal')
             ->add('numPortable')
+            ->add('remise')
             ->add('save', SubmitType::class); 
     }
 	

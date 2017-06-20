@@ -21,7 +21,7 @@ class CommandeDetailType extends AbstractType
 							'class' => 'FragosoBundle:Article',
 							'choice_label' => 'libelle',
 			))
-            ->add('quantite');
+            ->add('quantite', TextType::class, array('data' => '1'));
             //->add('tva_appliquee')
             //->add('prix_applique'); 
     }
