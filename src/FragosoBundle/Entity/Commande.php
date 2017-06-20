@@ -109,6 +109,18 @@ class Commande
 		$date_actuelle = new \DateTime;
 		return ($date_actuelle->diff($this->dateCommande));
 	}
+	
+	/**
+	 * Retouorne le nombre total d'articles
+	 */
+	public function getNbArticles()
+	{
+			$nb_articles = 0;
+			foreach ($this->articles as $article){
+				$nb_articles += $article->getQuantite();
+			}
+			return $nb_articles;
+	}
 
     /**
      * Get id

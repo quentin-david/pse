@@ -33,7 +33,7 @@
 				<th>N° commande</th>
 				<th>Client</th>
 				<th>Date</th>
-				<th>Nb article</th>
+				<th>Nb articles</th>
 				<th>Montant</th>
 				<th>Remise</th>
 			</tr>
@@ -58,7 +58,8 @@
 					</a>
 				</td>
 				<td>{{commande.dateCommande|date}}</td>
-				<td>{{commande.articles|length}}</td>
+				{#<td>{{commande.articles|length}}</td>#}
+				<td>{{commande.getNbArticles}}</td>
 				<td>{{commande.getPrixTotalTTC}}</td>
 				<td>{{commande.getPrixRemise}}</td>
 			</tr>

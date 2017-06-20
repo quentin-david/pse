@@ -16,7 +16,7 @@
 
 {% block title %}
 	{% if commande.id != '' %}
-		edition commande "{{commande.id}}"
+		edition de la commande du {{commande.dateCommande|date}} de {{commande.client.getNomComplet}}
 	{% else %}
 		nouvelle commande
 	{% endif %}
@@ -29,25 +29,15 @@
 	<form class="form-inline" action="{{ path('creer_commande', {'client_num': client.id}) }}" method="post" }}>
 		{{ form_errors(formulaire) }}
 	
-		{#<div class="form-group">
-			{{ form_label(formulaire.client) }}
-			{{ form_errors(formulaire.client) }}
-			{{ form_widget(formulaire.client) }}
-		</div>#}
 		<div class="form-group">
 			{{ form_label(formulaire.remise) }}
 			{{ form_errors(formulaire.remise) }}
 			{{ form_widget(formulaire.remise) }}
 		</div>
-		{#<div class="form-group">
-			{{ form_label(formulaire.etat) }}
-			{{ form_errors(formulaire.etat) }}
-			{{ form_widget(formulaire.etat) }}
-		</div>#}
 		
 		<a href="#" id="add_article" class="btn btn-default">Ajouter un article</a>
 		
-		<div id="articles_prototype" class="articles" data-prototype="{{ form_widget(formulaire.articles.vars.prototype)|e('html_attr') }}">
+		{#<div id="articles_prototype" class="articles" data-prototype="{{ form_widget(formulaire.articles.vars.prototype)|e('html_attr') }}">
 			{% for article in formulaire.articles %}
 				<div class="form-group">
 					{{form_label(article.libelle)}}
@@ -60,10 +50,12 @@
 					{{form_widget(article.quantite)}}
 				</div>
 			{% endfor %}
+		</div>#}
+		
+		<div id="articles_prototype" class="articles" data-prototype="{{ form_widget(formulaire.articles.vars.prototype)|e('html_attr') }}">
+			{{form_widget(formulaire.articles)}}
 		</div>
 		
-		
-	
 		{{ form_rest(formulaire) }}
 	</form>
 	
