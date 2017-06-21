@@ -26,7 +26,11 @@
 	{#{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}    
     {{ form_end(formulaire) }}#}
 	
-	<form class="form-inline" action="{{ path('creer_commande', {'client_num': client.id}) }}" method="post" }}>
+	{% if commande.id == "" %}
+		<form class="form-inline" action="{{ path('creer_commande', {'client_num': client.id}) }}" method="post" }}>
+	{% else %}
+		<form class="form-inline" action="{{ path('editer_commande', {'client_num': client.id, 'commande_num': commande.id}) }}" method="post" }}>
+	{% endif %}
 		{{ form_errors(formulaire) }}
 	
 		<div class="form-group">
@@ -68,17 +72,14 @@
     // On récupère la balise <div> qui contient l'attribut « data-prototype » qui nous intéresse.
     //var $container = $('div#commande_articles');
 	var $container = $('div#articles_prototype');
-
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
     var index = $container.find(':input').length;
-
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
     $('#add_article').click(function(e) {
       addArticle($container);
       e.preventDefault(); // évite qu'un # apparaisse dans l'URL
       return false;
     });
-
     // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un.
     if (index == 0) {
       addArticle($container);
@@ -88,7 +89,6 @@
         addDeleteLink($(this));
       });
     }
-
     // La fonction qui ajoute un formulaire CommandeDetailType
     function addArticle($container) {
       // Dans le contenu de l'attribut « data-prototype », on remplace :
@@ -98,28 +98,21 @@
         .replace(/__name__label__/g, 'Article n°' + (index+1))
         .replace(/__name__/g,        index)
       ;
-
       // On crée un objet jquery qui contient ce template
       var $prototype = $(template);
-
       // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
       addDeleteLink($prototype);
-
       // On ajoute le prototype modifié à la fin de la balise <div>
       $container.append($prototype);
-
       // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
       index++;
     }
-
     // La fonction qui ajoute un lien de suppression d'un article
     function addDeleteLink($prototype) {
       // Création du lien
       var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
-
       // Ajout du lien
       $prototype.append($deleteLink);
-
       // Ajout du listener sur le clic du lien pour effectivement supprimer l'article
       $deleteLink.click(function(e) {
         $prototype.remove();
