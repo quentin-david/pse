@@ -19,11 +19,13 @@ class CommandeController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         //Liste des toutes les categories et articles
-        if ($commande_etat === null){
-            $liste_commandes = $em->getRepository('FragosoBundle:Commande')->findAll();
-        }elseif($commande_etat == 'en-cours'){
+        if($commande_etat == 'en-cours'){
             $liste_commandes = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours'));
-        }
+        }elseif($commande_etat == 'terminees'){
+			$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminees'));
+		}else{
+			$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findAll();
+		}
         
         return $this->render('FragosoBundle:Commande:index.html.twig', array(
                                     'liste_commandes' => $liste_commandes,

@@ -2,7 +2,9 @@
 
 {% block left_nav %}
     <div class="list-group">
-        <a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Débiteurs</button></a>
+        <a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Trombino</button></a>
+		<a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Liste</button></a>
+		<a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Débiteurs</button></a>
     </div>
     
     <div class="list-group launcher">
@@ -14,7 +16,14 @@
     </div>
 {% endblock %}
 
-{% block title %} Clients {% endblock %}
+{% block title %}
+	Clients
+	<a href="{{ path('creer_client') }}">
+		<button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajouter client">
+			<span class="glyphicon glyphicon-plus"></span>
+		</button>
+	</a>	
+{% endblock %}
 
 {% block content %}
 	<h3>
@@ -40,9 +49,9 @@
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                 </a>
-                <a href="{{path('supprimer_client', {'client_num': client.id})}}">
-                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="supprimer client">
-                        <span class="glyphicon glyphicon-remove"></span>
+				<a href="{{path('creer_commande', {'client_num': client.id})}}">
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Ajouter commande">
+                        <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </a>
             </td>
@@ -53,10 +62,26 @@
 			</td>
             <td>{{client.prenom|capitalize}}</td>
             <td>{{client.numPortable}}</td>
-            <td>{{client.adresse}} à {{client.ville|capitalize}}</td>
+            <td>{{client.adresseComplete}}</td>
             <td>{{client.getSolde}} euros</td>
         </tr>
         {% endfor %}
     </table>
+	
+	
+	<h3>
+		Liste des clients améliorées
+		<span class="badge">{{liste_clients|length}}</span>
+	</h3>
+	{% for client in liste_clients %}
+		<div class="col-lg-3">
+			<a class="panel-client" href="{{path('creer_commande', {'client_num': client.id})}}">
+				<div class="panel panel-default panel-client">
+					<h2>{{client.prenom|capitalize}}</h2>
+					<h2>{{client.nom|upper}}</h2>
+				</div>
+			</a>
+		</div>
+	{% endfor %}
 
 {% endblock %}

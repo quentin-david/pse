@@ -1,5 +1,5 @@
-#left_column > a {
-    
+#left_column a:link {
+    text-decoration: none;
 }
 
 #left_column > button:hover {
@@ -75,4 +75,15 @@ table th, table td {
 .ligne-commande > div {
     text-align: center;
     vertical-align: middle;
+}
+
+
+/* Clients */
+
+.panel-client {
+    text-align: center;
+    vertical-align: middle;
+}
+.panel-client:link {
+    text-decoration: none;
 }

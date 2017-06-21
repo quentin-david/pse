@@ -16,9 +16,9 @@
 
 {% block title %}
 	{% if commande.id != '' %}
-		edition de la commande du {{commande.dateCommande|date}} de {{commande.client.getNomComplet}}
+		Commande du {{commande.dateCommande|date('d M Y')}} de {{commande.client.getNomComplet}}
 	{% else %}
-		nouvelle commande
+		Commande pour {{ client.nomComplet }}
 	{% endif %}
 {% endblock %}
 

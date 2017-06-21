@@ -13,7 +13,7 @@ class ClientController extends Controller
 	/**
     * @Security("has_role('ROLE_ADMIN')")
     */
-    public function indexAction()
+    public function indexAction($client_etat=null)
     {
 		$em = $this->getDoctrine()->getManager();
 		$liste_clients = $em->getRepository('FragosoBundle:Client')->findAll();

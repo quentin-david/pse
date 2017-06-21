@@ -140,7 +140,7 @@ class Client
      */
     public function getNomComplet()
     {
-        return $this->prenom.' '.$this->nom; 
+        return ucfirst($this->prenom).' '.strtoupper($this->nom); 
     }
 
     /**
@@ -214,6 +214,14 @@ class Client
     {
         return $this->adresse;
     }
+	
+	/**
+	 * Retourne 
+	 */
+	public function getAdresseComplete()
+	{
+		return $this->adresse.' à '.strtoupper($this->ville).' '.$this->codePostal;
+	}
 
     /**
      * Set ville

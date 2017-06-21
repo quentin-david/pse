@@ -11,6 +11,11 @@
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </button>
         </a>
+		<a href="{{path('supprimer_client', {'client_num': client.id})}}">
+			<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="supprimer client">
+				<span class="glyphicon glyphicon-remove"></span>
+			</button>
+		</a>
     </div>
     <div class="list-group launcher">
         <a href="{{ path('creer_commande', {'client_num': client.id}) }}">

@@ -5,9 +5,15 @@
 		{% if commande_etat == 'en-cours' %}
 			<a href="{{path('commande_home')}}"><button type="button" class="btn btn-default btn-lg btn-block">Commandes</button></a>
 			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-primary btn-lg btn-block">En cours</button></a>
+			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">Terminées</button></a>
+		{% elseif commande_etat == 'terminees' %}
+			<a href="{{path('commande_home')}}"><button type="button" class="btn btn-default btn-lg btn-block">Commandes</button></a>
+			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-default btn-lg btn-block">En cours</button></a>
+			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-primary btn-lg btn-block">Terminées</button></a>
 		{% else %}
 			<a href="{{path('commande_home')}}"><button type="button" class="btn btn-primary btn-lg btn-block">Commandes</button></a>
 			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-default btn-lg btn-block">En cours</button></a>
+			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">Terminées</button></a>
 		{% endif %}
 	</div>	
     
@@ -21,7 +27,13 @@
 {% endblock %}
 
 {% block title %}
-	Liste commandes
+	{% if commande_etat == 'en-cours' %}
+		Commandes en cours
+	{% elseif commande_etat == 'terminees' %}
+		Commandes terminées
+	{% else %}
+		Totalité des commandes
+	{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -60,14 +72,21 @@
 				<td>{{commande.dateCommande|date}}</td>
 				{#<td>{{commande.articles|length}}</td>#}
 				<td>{{commande.getNbArticles}}</td>
-				<td>{{commande.getPrixTotalTTC}}</td>
-				<td>{{commande.getPrixRemise}}</td>
+				<td>{{commande.getPrixTotalTTC}} euros</td>
+				<td>{{commande.getPrixRemise}} euros</td>
 			</tr>
 			{# include("FragosoBundle:Commande:snippet_commande.html.twig") #}
 		{% endfor %}
 		</table>
 	{% else %}
-		<div class="alert alert-info">pas de commande encore</div>
+		{% if commande_etat == 'en-cours' %}
+			<div class="alert alert-info">Aucune commande en cours</div>
+		{% elseif commande_etat == 'terminees' %}
+			<div class="alert alert-info">Aucune commande terminée</div>
+		{% else %}
+			<div class="alert alert-info">Aucune commande encore</div>
+		{% endif %}
+		
 	{% endif %}
 	</div>
 {% endblock %}

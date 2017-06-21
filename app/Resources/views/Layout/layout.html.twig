@@ -35,11 +35,13 @@
         <!-- The Grid -->
 		<div class="row">
 			<!-- Left Column -->
-			<div id="left_column" class="col-lg-2 col-md-2">
-					<!-- raccourcis -->
-					{% block left_nav %} {% endblock %}
-		  
-			</div>
+			{% block conteneur_gauche %}
+				<div id="left_column" class="col-lg-2 col-md-2">
+						<!-- raccourcis -->
+						{% block left_nav %} {% endblock %}
+			  
+				</div>
+			{% endblock %}
 			
 	
 			<!-- contenu de la page -->
