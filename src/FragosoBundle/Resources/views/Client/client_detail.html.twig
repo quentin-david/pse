@@ -1,9 +1,6 @@
 {% extends ":Layout:layout.html.twig" %}
 
 {% block left_nav %}
-    <div class="list-group">
-        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Commandes</button></a>
-    </div>
     
     <div class="list-group launcher">
         <a href="{{ path('client_home') }}">
@@ -20,34 +17,68 @@
     <div class="list-group launcher">
         <a href="{{ path('creer_commande', {'client_num': client.id}) }}">
             <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="creer commande">
-                <span class="glyphicon glyphicon-plus"></span>
+                {#<span class="glyphicon glyphicon-plus"></span>#}
+				<h4>Nouvelle commande</h4>
             </button>
         </a>
     </div>
 {% endblock %}
 
-{% block title %} Client {{client.prenom|capitalize}} {{client.nom|upper}} {% endblock %}
+{# block title %}
+	Client {{client.nomComplet}}
+{% endblock #}
+{% block conteneur_title %}
+	<div class="row">
+		<div class="col-lg-9">
+			<h1 class="text-center">
+				Client {{client.nomComplet}}
+				<a href="{{path('editer_client', {'client_num': client.id})}}">
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="editer client">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </a>
+			</h1>
+		</div>
+		<div class="col-lg-3">
+			<h5>{{client.adresseComplete}}</h5>
+			<h5>Tèl : {{client.numPortable}}</h5>
+			<h5>Remise : {{client.remise}} %</h5>
+		</div>
+	</div>
+{% endblock %}
+
 
 {% block content %}
 	<h3>Solde</h3>
-		A ce jour débiteur de : {{client.getSolde}} euro
-    
+		A ce jour débiteur de : {{client.getSolde}} euro <br>
+		Nombre total de commandes : {{client.commandes|length}} ({{client.getMontantTotalCommandes}} euros)
     <h3>Ses commandes en cours</h3>
-    <div class="row">
+   
     {% if liste_commandes_encours |length > 0 %}
 			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours} %}
 	{% else %}
-		<div class="alert alert-info">pas de commande encore</div>
+		<div class="alert alert-info">pas de commande en cours</div>
 	{% endif %}
-	</div>
+	
 	
 	<h3>Ses commandes à payer</h3>
-    <div class="row">
+	
     {% if liste_commandes_terminees |length > 0 %}
 			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_terminees} %}
 	{% else %}
+		<div class="alert alert-info">pas de commande à payer</div>
+	{% endif %}
+	
+	
+	
+	<h3>Archives de l'année {{ 'now'|date('Y')}}</h3>
+		TODO or not TODO ?
+	{#
+    {% if liste_commandes_archivees |length > 0 %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_archivees} %}
+	{% else %}
 		<div class="alert alert-info">pas de commande encore</div>
 	{% endif %}
-	</div>
+	#}
     
 {% endblock %}

@@ -50,8 +50,7 @@ class ClientController extends Controller
                 $em->persist($client);
                 $em->flush();
                 
-                // Redirection vers la page catalogue
-                return $this->redirectToRoute('client_home');
+				return $this->redirectToRoute('afficher_client', array('client_num' => $client->getId()));
             }
         }        
         
@@ -99,13 +98,23 @@ class ClientController extends Controller
         $em = $this->getDoctrine()->getManager();
 		$client = $em->getRepository('FragosoBundle:Client')->find($client_num);
 		
+		//Liste des commandes en cours
 		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours', 'client' => $client));
-		$liste_commandes_terminees = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee', 'client' => $client));
+		// Liste des commandes terminées et pas encore payées
+		$liste_commandes_terminees = array();
+		foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee', 'client' => $client)) as $commande)
+		{
+			if ($commande->getResteAPayer() > 0){
+				array_push($liste_commandes_terminees, $commande);
+			}
+		}
+		$liste_commandes_archivees = $em->getRepository('FragosoBundle:Commande')->findBy(array('client' => $client), array('dateCommande' => 'DESC'));
 		
 		return $this->render('FragosoBundle:Client:client_detail.html.twig', array(
 									'client' => $client,
 									'liste_commandes_encours' => $liste_commandes_encours,
 									'liste_commandes_terminees' => $liste_commandes_terminees,
+									'liste_commandes_archivees' => $liste_commandes_archivees,
 							));
 	}
 }

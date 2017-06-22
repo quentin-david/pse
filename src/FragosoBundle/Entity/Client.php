@@ -93,14 +93,25 @@ class Client
 	{
 		$solde = 0;
 		foreach($this->getCommandes() as $commande){
-			if($commande->getEtat() == 'encours'){
-				$solde += $commande->getPrixTotalTTC();
-			}
+			//if($commande->getEtat() == 'encours'){
+				//$solde += $commande->getPrixTotalTTC();
+				$solde += $commande->getResteAPayer();
+			//}
 		}
 		return $solde;
 	}
-	 
-	 
+	
+	/**
+	 * Retourne le montant total des commandes du client
+	 */
+	public function getMontantTotalCommandes()
+	{
+		$montant = 0;
+		foreach($this->getCommandes() as $commande){
+			$montant += $commande->getPrixTotalTTC();
+		}
+		return $montant;
+	}
     /**
      * Get id
      *

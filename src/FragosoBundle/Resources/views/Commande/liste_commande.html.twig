@@ -1,0 +1,53 @@
+{% extends ":Layout:layout.html.twig" %}
+
+{% block left_nav %}
+	<div class="list-group">
+		<a href="{{path('commande_home')}}"><button type="button" class="btn btn-default btn-lg btn-block">Récapitulatif</button></a>
+	</div>
+    <div class="list-group">
+		{% if commande_etat == 'en-cours' %}
+			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-primary btn-lg btn-block">En cours</button></a>
+			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">A encaisser</button></a>
+		{% elseif commande_etat == 'terminees' %}
+			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-default btn-lg btn-block">En cours</button></a>
+			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-primary btn-lg btn-block">A encaisser</button></a>
+		{% else %}
+			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-default btn-lg btn-block">En cours</button></a>
+			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">A encaisser</button></a>
+		{% endif %}
+	</div>
+	<div class="list-group">
+		{% if commande_etat == 'archivees' %}
+			<a href="{{path('lister_commande', {'commande_etat': 'archivees'})}}"><button type="button" class="btn btn-primary btn-lg btn-block">Archives</button></a>
+		{% else %}
+			<a href="{{path('lister_commande', {'commande_etat': 'archivees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">Archives</button></a>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block title %}
+	{% if commande_etat == 'en-cours' %}
+		Commandes en cours
+	{% elseif commande_etat == 'terminees' %}
+		Commandes terminées (à encaisser)
+	{% else %}
+		Archives de l'année {{ 'now'|date('Y') }}
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{#<div class="row">#}
+	{% if liste_commandes %}
+		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes} %}
+	{% else %}
+		{% if commande_etat == 'en-cours' %}
+			<div class="alert alert-info">Aucune commande en cours</div>
+		{% elseif commande_etat == 'terminees' %}
+			<div class="alert alert-info">Aucune commande terminée</div>
+		{% else %}
+			<div class="alert alert-info">Aucune commande encore</div>
+		{% endif %}
+		
+	{% endif %}
+	{#</div>#}
+{% endblock %}

@@ -21,15 +21,54 @@ class CommandeController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         //Liste des toutes les categories et articles
+		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours'));
+
+		//$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminees'));
+		// Liste des commandes terminées et pas encore payées
+		$liste_commandes_terminees = array();
+		foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee')) as $commande)
+		{
+			if ($commande->getResteAPayer() > 0){
+				array_push($liste_commandes_terminees, $commande);
+			}
+		}
+		
+		$liste_commandes_archivees = $em->getRepository('FragosoBundle:Commande')->findAll();
+        
+        return $this->render('FragosoBundle:Commande:index.html.twig', array(
+                                    'liste_commandes_encours' => $liste_commandes_encours,
+									'liste_commandes_terminees' => $liste_commandes_terminees,
+									'liste_commandes_archivees' => $liste_commandes_archivees,
+                                    'commande_etat' => $commande_etat,
+                            ));
+    }
+	
+	/**
+    * @Security("has_role('ROLE_ADMIN')")
+    */
+    public function listerCommandeAction($commande_etat=null)
+    {
+        //Entity Manager
+        $em = $this->getDoctrine()->getManager();
+        
+        //Liste des toutes les categories et articles
         if($commande_etat == 'en-cours'){
             $liste_commandes = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours'));
         }elseif($commande_etat == 'terminees'){
-			$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminees'));
-		}else{
+			//$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminees'));
+			// Liste des commandes terminées et pas encore payées
+			$liste_commandes = array();
+			foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee')) as $commande)
+			{
+				if ($commande->getResteAPayer() > 0){
+					array_push($liste_commandes, $commande);
+				}
+			}
+		}elseif($commande_etat == 'archivees'){
 			$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findAll();
 		}
         
-        return $this->render('FragosoBundle:Commande:index.html.twig', array(
+        return $this->render('FragosoBundle:Commande:liste_commande.html.twig', array(
                                     'liste_commandes' => $liste_commandes,
                                     'commande_etat' => $commande_etat,
                             ));
@@ -75,7 +114,8 @@ class CommandeController extends Controller
                 $em->flush();
                 
 				// Redirection vers la page catalogue
-                return $this->redirectToRoute('commande_home');
+                //return $this->redirectToRoute('commande_home');
+				return $this->redirectToRoute('afficher_client', array('client_num' => $client_num));
             }
         }        
         
@@ -104,10 +144,6 @@ class CommandeController extends Controller
         
         // Creation du formulaire générique de création d'un reglement
 		$formulaire = $this->createForm(ReglementType::class, $reglement);
-		// On met le champ remise à la valeur par défaut du client
-        //$formulaire->getData()->setRemise($client->getRemise());
-        //$formulaire->setData($formulaire->getData());
-        
         
         //Enregistrement en base du formulaire
         if($request->isMethod('POST')){

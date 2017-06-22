@@ -46,10 +46,12 @@
 			
 	
 			<!-- contenu de la page -->
-			<div id="right_column" class="col-lg-10 col-md-10">
-				<h1 class="text-center">{% block title %} {% endblock %}</h1>
+			<div id="right_column" class="col-lg-10 col-md-10" style="padding-left: 20px">
+				{% block conteneur_title %}
+					<h1 class="text-center">{% block title %} {% endblock %}</h1>
+				{% endblock %}
 				
-				<div class="row">
+				{#<div class="row">#}
 					{# On affiche les messages flash HTTP #}
 					{% for key, messages in app.session.flashbag.all() %}
 					  {% for message in messages %}
@@ -58,7 +60,7 @@
 						</div>
 					  {% endfor %}
 					{% endfor %}
-				</div>
+				{#</div>#}
 				
 				{% block content %} {% endblock %}
 			</div>

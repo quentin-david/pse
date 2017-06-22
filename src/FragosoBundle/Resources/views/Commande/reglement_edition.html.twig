@@ -19,6 +19,7 @@
 {% endblock %}
 
 {% block content %}
+	<h3>Montant : {{commande.getResteAPayer}} euros</h3>
 	{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}    
     {{ form_end(formulaire) }}
 {% endblock %}

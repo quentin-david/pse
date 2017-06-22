@@ -1,54 +1,35 @@
 {% extends ":Layout:layout.html.twig" %}
 
 {% block left_nav %}
+	<div class="list-group">
+		<a href="{{path('commande_home')}}"><button type="button" class="btn btn-primary btn-lg btn-block">Récapitulatif</button></a>
+	</div>
     <div class="list-group">
-		{% if commande_etat == 'en-cours' %}
-			<a href="{{path('commande_home')}}"><button type="button" class="btn btn-default btn-lg btn-block">Commandes</button></a>
-			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-primary btn-lg btn-block">En cours</button></a>
-			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">Terminées</button></a>
-		{% elseif commande_etat == 'terminees' %}
-			<a href="{{path('commande_home')}}"><button type="button" class="btn btn-default btn-lg btn-block">Commandes</button></a>
 			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-default btn-lg btn-block">En cours</button></a>
-			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-primary btn-lg btn-block">Terminées</button></a>
-		{% else %}
-			<a href="{{path('commande_home')}}"><button type="button" class="btn btn-primary btn-lg btn-block">Commandes</button></a>
-			<a href="{{path('lister_commande', {'commande_etat': 'en-cours'})}}"><button type="button" class="btn btn-default btn-lg btn-block">En cours</button></a>
-			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">Terminées</button></a>
-		{% endif %}
-	</div>	
-    
-    {#<div class="list-group launcher">
-        <a href="{{ path('creer_commande') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Nouvelle commande">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
-        </a>
-    </div>#}
+			<a href="{{path('lister_commande', {'commande_etat': 'terminees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">A encaisser</button></a>
+	</div>
+	<div class="list-group">
+		<a href="{{path('lister_commande', {'commande_etat': 'archivees'})}}"><button type="button" class="btn btn-default btn-lg btn-block">Archives</button></a>
+	</div>
 {% endblock %}
 
 {% block title %}
-	{% if commande_etat == 'en-cours' %}
-		Commandes en cours
-	{% elseif commande_etat == 'terminees' %}
-		Commandes terminées
-	{% else %}
-		Totalité des commandes
-	{% endif %}
+	Récapitulatifs des commandes
 {% endblock %}
 
 {% block content %}
-	<div class="row">
-	{% if liste_commandes %}
-		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes} %}
+	<h3>Commandes en cours</h3>
+	{% if liste_commandes_encours %}
+		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours} %}
 	{% else %}
-		{% if commande_etat == 'en-cours' %}
-			<div class="alert alert-info">Aucune commande en cours</div>
-		{% elseif commande_etat == 'terminees' %}
-			<div class="alert alert-info">Aucune commande terminée</div>
-		{% else %}
-			<div class="alert alert-info">Aucune commande encore</div>
-		{% endif %}
-		
+		<div class="alert alert-info">Aucune commande en cours</div>
 	{% endif %}
-	</div>
+	
+	<h3>Commandes en attente de paiement</h3>
+	{% if liste_commandes_terminees %}
+		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_terminees} %}
+	{% else %}
+		<div class="alert alert-info">Aucun paiement en attente</div>
+	{% endif %}
+	
 {% endblock %}

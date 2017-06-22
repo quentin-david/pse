@@ -10,4 +10,22 @@ namespace FragosoBundle\Repository;
  */
 class CommandeRepository extends \Doctrine\ORM\EntityRepository
 {
+    //
+    public function findAll()
+    {
+        return $this->findBy(array(), array('dateCommande' => 'DESC'));
+    }
+    
+    public function getCommandeAPayer($client)
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder->where('a.client = :client')
+                    ->setParameter('client', $client)
+                    ->andWhere('a.etat = :etat')
+                    ->setParameter('etat', 'terminee')
+                    ->andWhere($this->getResteAPayer() > 0)
+                    ;
+        // On retourne ces résultats
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

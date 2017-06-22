@@ -6,14 +6,6 @@
 		<a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Liste</button></a>
 		<a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Débiteurs</button></a>
     </div>
-    
-    <div class="list-group launcher">
-        <a href="{{ path('creer_client') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="ajouter client">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
-        </a>
-    </div>
 {% endblock %}
 
 {% block title %}
@@ -75,7 +67,8 @@
 	</h3>
 	{% for client in liste_clients %}
 		<div class="col-lg-3">
-			<a class="panel-client" href="{{path('creer_commande', {'client_num': client.id})}}">
+			{#<a class="panel-client" href="{{path('creer_commande', {'client_num': client.id})}}">#}
+			<a class="panel-client" href="{{path('afficher_client', {'client_num': client.id})}}">
 				<div class="panel panel-default panel-client">
 					<h2>{{client.prenom|capitalize}}</h2>
 					<h2>{{client.nom|upper}}</h2>

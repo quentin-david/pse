@@ -84,10 +84,16 @@
 			{{ form_widget(formulaire.valider, {'attr': {'class': 'btn btn-default btn-success'}}) }}
         </div>
         <div class="form-group">
-        <a href="{{ path('client_home') }}" class="btn btn-default btn-danger">
-                Abandonner
-            </a>
-            </div>
+			{% if client.id != '' %}
+				<a href="{{ path('afficher_client', {'client_num':client.id}) }}" class="btn btn-default btn-danger">
+					Abandonner
+				</a>
+			{% else %}
+				<a href="{{ path('client_home') }}" class="btn btn-default btn-danger">
+					Abandonner
+				</a>
+			{% endif %}
+        </div>
 	</fieldset>
     {{ form_end(formulaire) }}
 {% endblock %}

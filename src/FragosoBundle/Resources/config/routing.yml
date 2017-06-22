@@ -43,7 +43,7 @@ commande_home:
 
 lister_commande:
     path: /commande/liste/{commande_etat}
-    defaults: { _controller: FragosoBundle:Commande:index }
+    defaults: { _controller: FragosoBundle:Commande:listerCommande }
 
 creer_commande:
     path: /client/{client_num}/commande/edit

@@ -2,10 +2,11 @@
 	<tr>
 		<th>Action</th>
 		<th>N° commande</th>
+		<th>Etat</th>
 		{% if client is not defined %}
 			<th>Client</th>
 		{% endif %}
-		<th>Date</th>
+		<th>Date commande</th>
 		<th>Nb articles</th>
 		<th>Montant</th>
 		<th>Remise</th>
@@ -15,22 +16,32 @@
 	<tr>
 		<td>
 			<a href="{{ path('editer_commande', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
-				<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Editer commande">
+				<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Editer commande">
 					<span class="glyphicon glyphicon-pencil"></span>
 				</button>
 			</a>
 			<a href="#">
-				<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Supprimer commande">
+				<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Supprimer commande">
 					<span class="glyphicon glyphicon-remove"></span>
 				</button>
 			</a>
-			<a href="{{ path('creer_paiement', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
-				<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Ajouter paiement">
-					<span class="glyphicon glyphicon-euro"></span>
-				</button>
-			</a>
+			{% if commande.getResteAPayer > 0 %}
+				<a href="{{ path('creer_paiement', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
+					<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Ajouter paiement">
+						<span class="glyphicon glyphicon-euro"></span>
+					</button>
+				</a>
+			{% endif %}
+			{% if commande.etat != 'terminee' %}
+				<a href="#">
+					<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Marquer comme terminée">
+						<span class="glyphicon glyphicon-ok"></span>
+					</button>
+				</a>
+			{% endif %}
 		</td>
 		<td>{{commande.id}}</td>
+		<td>{{commande.etat}}</td>
 		{% if client is not defined %}
 			<td>
 				<a href="{{ path('afficher_client', {'client_num': commande.client.id}) }}">
@@ -41,7 +52,7 @@
 		<td>{{commande.dateCommande|date}}</td>
 		<td>
 			{{commande.getNbArticles}}
-			<button id="btn-detail-commande-{{commande.id}}" type="button" class="btn btn-xs btn-default btn-detail-commande-{{commande.id}}" data-toggle="tooltip" data-placement="top" title="Détail commande">
+			<button id="btn-detail-commande-{{commande.id}}" type="button" class="btn btn-xs btn-default btn-detail-commande-{{commande.id}}" data-toggle="tooltip" data-placement="top" title="Détail commande" style="float: right">
 				<span class="glyphicon glyphicon-th-list"></span>
 			</button>
 			<script>
@@ -53,16 +64,30 @@
 			</script>
 		</td>
 		<td>{{commande.getPrixTotalTTC}} euros</td>
-		<td>{{commande.getPrixRemise}} euros</td>
+		<td>{{commande.getPrixRemise}} euros<br>({{commande.remise}} %)</td>
 		<td>{{commande.resteAPayer}} euros</td>
 	</tr>
 	<tr class="detail-commande-{{commande.id}}" style="display: none">
-		<td colspan="7">
+		<td colspan="4">
+			<h5>Articles</h5>
 			<ul>
 				{% for article in commande.articles %}
 					<li>
-						{{article.article.libelle}}
-						
+						{{article.quantite}} x {{article.article.libelle}} ({{article.getPrixTotalTTC}} euros)
+					</li>
+				{% endfor %}
+			</ul>
+		</td>
+		{% if client is not defined %}
+			<td colspan="5">
+		{% else %}
+			<td colspan="4">
+		{% endif %}
+			<h6>Reglements</h6>
+			<ul>
+				{% for reglement in commande.reglements %}
+					<li>
+						{{reglement.montant}} euros le {{reglement.date|date('d-M-Y')}}
 					</li>
 				{% endfor %}
 			</ul>
