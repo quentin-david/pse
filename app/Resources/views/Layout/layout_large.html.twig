@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block page_title %}Fragoso{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/x-icon" href="{{ asset('pictures/favicon.ico') }}">
+    
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+       
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+       
+		<link rel="stylesheet" href="{{ asset('css/base.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/layout.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/color.css') }}">
+	
+		<script src="//cdn.ckeditor.com/4.5.8/standard/ckeditor.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ 
+    </head>
+    
+    <body>
+	<div class="container" style="width: 100%">
+    	
+		<!-- Menu -->
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				{% block menu %}{{ include(":Layout:menu.html.twig") }} {% endblock %}
+			</div>
+		</nav>
+		
+	
+        <!-- The Grid -->
+		<div class="row">			
+	
+			<!-- contenu de la page -->
+			<div id="right_column" class="col-lg-12 col-md-12">
+				<h1 class="text-center">{% block title %} {% endblock %}</h1>
+				
+				<div class="row">
+					{# On affiche les messages flash HTTP #}
+					{% for key, messages in app.session.flashbag.all() %}
+					  {% for message in messages %}
+						<div class="alert alert-{{ key }}">
+						  {{ message }}
+						</div>
+					  {% endfor %}
+					{% endfor %}
+				</div>
+				
+				{% block content %} {% endblock %}
+			</div>
+		</div>
+		
+	</div>
+
+	 <!-- jQuery library -->
+   	 {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>#}
+   	 <!-- Latest compiled JavaScript -->
+   	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   	 <!-- Tooltip module Bootstrap-->
+   	 <script type="text/javascript">
+        	$(function () {
+        	    $('[data-toggle="tooltip"]').tooltip();
+        	  });
+   	 </script>
+    </body>
+</html>

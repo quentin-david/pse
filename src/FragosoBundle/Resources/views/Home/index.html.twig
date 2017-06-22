@@ -15,9 +15,7 @@
 	
 	<h3>Commandes en cours</h3>
 		<div class="row">
-		{% for commande in liste_commandes_encours %}
-			{% include("FragosoBundle:Commande:snippet_commande.html.twig") %}
-		{% endfor %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours} %}
 		</div>
 		
 	<h3>Clients débiteurs</h3>
