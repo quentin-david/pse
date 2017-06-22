@@ -1,0 +1,24 @@
+{% extends ":Layout:layout.html.twig" %}
+
+{% block left_nav %}
+    <div class="list-group">
+        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Commandes</button></a>
+    </div>
+    
+    <div class="list-group launcher">
+        <a href="{{ path('commande_home') }}">
+            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="retour">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+        </a>
+    </div>
+{% endblock %}
+
+{% block title %}
+		Reglement pour la commande du <br>{{commande.dateCommande|date('d M Y')}} de {{commande.client.getNomComplet}}
+{% endblock %}
+
+{% block content %}
+	{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}    
+    {{ form_end(formulaire) }}
+{% endblock %}
