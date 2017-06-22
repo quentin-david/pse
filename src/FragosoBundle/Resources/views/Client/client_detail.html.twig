@@ -34,9 +34,7 @@
     <h3>Ses commandes</h3>
     <div class="row">
     {% if client.commandes|length > 0 %}
-		{% for commande in client.commandes %}
-			{% include("FragosoBundle:Commande:snippet_commande.html.twig") %}
-		{% endfor %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': client.commandes} %}
 	{% else %}
 		<div class="alert alert-info">pas de commande encore</div>
 	{% endif %}

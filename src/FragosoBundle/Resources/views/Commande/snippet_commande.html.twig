@@ -1,28 +1,65 @@
-<div class="col-lg-12 ligne-commande">
-    <div class="col-lg-3 ligne-commande-client">
-        <h5>{{commande.client.prenom}} {{commande.client.nom}} ({{commande.etat}})</h5>
-    </div>
-    
-    <div class="col-lg-5">
-        <h5>{{commande.dateCommande|date}} [{{commande.getAge|date}}]</h5>
-    </div>
-    
-    <div class="col-lg-3">
-    	{% if commande.getPrixRemise == 0 %}
-			Total de la commande :<br> {{commande.getPrixTotalTTC}} euros
-		{% else %}
-			Total de la commande :<br> {{commande.getPrixTotalAvantRemiseTTC}} - {{commande.getPrixRemise}} = {{commande.getPrixTotalTTC}} euros
+<table class="table table-bordered table-striped">
+	<tr>
+		<th>Action</th>
+		<th>N° commande</th>
+		{% if client is not defined %}
+			<th>Client</th>
 		{% endif %}
-    </div>
-    
-    <div class="col-lg-5  col-lg-offset-3">
-        <ul>
-        {% for article in commande.articles %}
-            <li>{{article.quantite}} x {{article.article.libelle}}
-            ({{article.getPrixTotalTTC}} euros) </li>
-        {% endfor %}
-        </ul>
-    </div>
-    
-	
-</div>
+		<th>Date</th>
+		<th>Nb articles</th>
+		<th>Montant</th>
+		<th>Remise</th>
+	</tr>
+{% for commande in liste_commandes %}
+	<tr>
+		<td>
+			<a href="{{ path('editer_commande', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
+				<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Editer commande">
+					<span class="glyphicon glyphicon-pencil"></span>
+				</button>
+			</a>
+			<a href="#">
+				<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Supprimer commande">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+			</a>
+		</td>
+		<td>{{commande.id}}</td>
+		{% if client is not defined %}
+			<td>
+				<a href="{{ path('afficher_client', {'client_num': commande.client.id}) }}">
+					{{commande.client.prenom}} {{commande.client.nom}}
+				</a>
+			</td>
+		{% endif %}
+		<td>{{commande.dateCommande|date}}</td>
+		<td>
+			{{commande.getNbArticles}}
+			<button id="btn-detail-commande-{{commande.id}}" type="button" class="btn btn-xs btn-default btn-detail-commande-{{commande.id}}" data-toggle="tooltip" data-placement="top" title="Détail commande">
+				<span class="glyphicon glyphicon-th-list"></span>
+			</button>
+			<script>
+				$("document").ready(function(){
+					$(".btn-detail-commande-{{commande.id}}").click(function(){
+						$(".detail-commande-{{commande.id}}").toggle();
+					});
+				});
+			</script>
+		</td>
+		<td>{{commande.getPrixTotalTTC}} euros</td>
+		<td>{{commande.getPrixRemise}} euros</td>
+	</tr>
+	<tr class="detail-commande-{{commande.id}}" style="display: none">
+		<td colspan="7">
+			<ul>
+				{% for article in commande.articles %}
+					<li>
+						{{article.article.libelle}}
+						
+					</li>
+				{% endfor %}
+			</ul>
+		</td>
+	</tr>
+{% endfor %}
+</table>
