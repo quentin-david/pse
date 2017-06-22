@@ -99,8 +99,13 @@ class ClientController extends Controller
         $em = $this->getDoctrine()->getManager();
 		$client = $em->getRepository('FragosoBundle:Client')->find($client_num);
 		
+		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours', 'client' => $client));
+		$liste_commandes_terminees = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee', 'client' => $client));
+		
 		return $this->render('FragosoBundle:Client:client_detail.html.twig', array(
 									'client' => $client,
+									'liste_commandes_encours' => $liste_commandes_encours,
+									'liste_commandes_terminees' => $liste_commandes_terminees,
 							));
 	}
 }

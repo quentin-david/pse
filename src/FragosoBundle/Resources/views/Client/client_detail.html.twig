@@ -31,10 +31,20 @@
 {% block content %}
 	<h3>Solde</h3>
 		A ce jour débiteur de : {{client.getSolde}} euro
-    <h3>Ses commandes</h3>
+    
+    <h3>Ses commandes en cours</h3>
     <div class="row">
-    {% if client.commandes|length > 0 %}
-			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': client.commandes} %}
+    {% if liste_commandes_encours |length > 0 %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours} %}
+	{% else %}
+		<div class="alert alert-info">pas de commande encore</div>
+	{% endif %}
+	</div>
+	
+	<h3>Ses commandes à payer</h3>
+    <div class="row">
+    {% if liste_commandes_terminees |length > 0 %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_terminees} %}
 	{% else %}
 		<div class="alert alert-info">pas de commande encore</div>
 	{% endif %}
