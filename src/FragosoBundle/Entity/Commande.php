@@ -62,6 +62,13 @@ class Commande
      */
     private $etat;
 
+	/**
+     * @ORM\OneToMany(targetEntity="FragosoBundle\Entity\Reglement", cascade={"persist"}, mappedBy="commande")
+     */
+    private $reglements;
+    
+    
+    
     
     public function __construct()
     {
@@ -99,6 +106,18 @@ class Commande
     public function getPrixTotalTTC()
 	{
 		return $this->getPrixTotalAvantRemiseTTC() - $this->getPrixRemise();
+	}
+	
+	/**
+	 * Retourne le reste à payer (en prenant en compte les paiements
+	 */ 
+	public function getResteAPayer()
+	{
+		$reste_a_payer = $this->getPrixTotalTTC();
+		foreach ($this->reglements as $reglement){
+				$reste_a_payer -= $reglement->getMontant();
+		}
+		return $reste_a_payer;
 	}
 	
 	/**
@@ -286,5 +305,39 @@ class Commande
     public function getArticles()
     {
         return $this->articles;
+    }
+
+    /**
+     * Add reglement
+     *
+     * @param \FragosoBundle\Entity\Reglement $reglement
+     *
+     * @return Commande
+     */
+    public function addReglement(\FragosoBundle\Entity\Reglement $reglement)
+    {
+        $this->reglements[] = $reglement;
+
+        return $this;
+    }
+
+    /**
+     * Remove reglement
+     *
+     * @param \FragosoBundle\Entity\Reglement $reglement
+     */
+    public function removeReglement(\FragosoBundle\Entity\Reglement $reglement)
+    {
+        $this->reglements->removeElement($reglement);
+    }
+
+    /**
+     * Get reglements
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReglements()
+    {
+        return $this->reglements;
     }
 }

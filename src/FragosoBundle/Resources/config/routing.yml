@@ -58,6 +58,14 @@ editer_commande:
         client_num: \d+
         commande_num: \d+
 
+creer_paiement:
+    path: /client/{client_num}/commande/{commande_num}/paiement
+    defaults: { _controller: FragosoBundle:Commande:payerCommande }
+    requirements:
+        client_num: \d+
+        commande_num: \d+
+
+
 ##########   Clients    #############
 client_home:
     path: /client

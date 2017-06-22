@@ -9,6 +9,7 @@
 		<th>Nb articles</th>
 		<th>Montant</th>
 		<th>Remise</th>
+		<th>Reste à payer</th>
 	</tr>
 {% for commande in liste_commandes %}
 	<tr>
@@ -21,6 +22,11 @@
 			<a href="#">
 				<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Supprimer commande">
 					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+			</a>
+			<a href="{{ path('creer_paiement', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
+				<button type="button" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="top" title="Ajouter paiement">
+					<span class="glyphicon glyphicon-euro"></span>
 				</button>
 			</a>
 		</td>
@@ -48,6 +54,7 @@
 		</td>
 		<td>{{commande.getPrixTotalTTC}} euros</td>
 		<td>{{commande.getPrixRemise}} euros</td>
+		<td>{{commande.resteAPayer}} euros</td>
 	</tr>
 	<tr class="detail-commande-{{commande.id}}" style="display: none">
 		<td colspan="7">
