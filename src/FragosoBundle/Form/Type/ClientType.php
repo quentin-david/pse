@@ -32,7 +32,7 @@ class ClientType extends AbstractType
             ->add('codePostal')
             ->add('numPortable')
             ->add('remise')
-            ->add('save', SubmitType::class); 
+            ->add('valider', SubmitType::class); 
     }
 	
 	/**

@@ -1,22 +1,19 @@
 {% extends ":Layout:layout.html.twig" %}
 
 {% block left_nav %}
-    <div class="list-group">
-        <a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Débiteurs</button></a>
-    </div>
     
-    <div class="list-group launcher">
+
         <a href="{{ path('client_home') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Retour liste client">
+            <button type="button" class="btn btn-default btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Retour liste client">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </button>
         </a>
-    </div>
+
 {% endblock %}
 
 {% block title %}
 	{% if client.nom != '' %}
-		edition client "{{client.prenom}} {{client.nom}}"
+		Édition du client "{{client.prenom}} {{client.nom}}"
 	{% else %}
 		new client
 	{% endif %}
@@ -24,15 +21,16 @@
 
 {% block content %}
 	{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}
-	{#
+	<fieldset>
+	<legend>Identité</legend>
         <div class="form-group">
-            {{ form_label(formulaire.civilite, "Civilite", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            {{ form_label(formulaire.civilite, "Civ.", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
             <div class="col-xl-8">
                 {{ form_widget(formulaire.civilite) }}
             </div>
         </div>
         <div class="form-group">
-            {{ form_label(formulaire.prenom, "Prenom", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            {{ form_label(formulaire.prenom, "Prénom", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
             <div class="col-xl-8">
                 {{ form_widget(formulaire.prenom) }}
             </div>
@@ -43,6 +41,53 @@
                 {{ form_widget(formulaire.nom) }}
             </div>
         </div>
-        #}
+	</fieldset>
+	<fieldset>
+	<legend>Adresse</legend>
+        <div class="form-group">
+            {{ form_label(formulaire.adresse, "Adresse", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.adresse) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.codePostal, "Code postal", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-4">
+                {{ form_widget(formulaire.codePostal) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.ville, "Ville", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.ville) }}
+            </div>
+        </div>
+	</fieldset>
+		<fieldset>
+	<legend>Contact et Fidélité</legend>
+        <div class="form-group">
+            {{ form_label(formulaire.numPortable, "Num. portable", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.numPortable) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.remise, "Remise en %", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-4">
+                {{ form_widget(formulaire.remise) }}
+            </div>
+        </div>
+	</fieldset>
+	<fieldset>
+		<legend>Validation</legend>
+        <div class="form-group">
+			{{ form_widget(formulaire.valider, {'attr': {'class': 'btn btn-default btn-success'}}) }}
+        </div>
+        <div class="form-group">
+        <a href="{{ path('client_home') }}" class="btn btn-default btn-danger">
+                Abandonner
+            </a>
+            </div>
+	</fieldset>
     {{ form_end(formulaire) }}
 {% endblock %}
