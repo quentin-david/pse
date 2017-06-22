@@ -1,35 +1,40 @@
 {% extends ":Layout:layout.html.twig" %}
 
 {% block left_nav %}
-    <div class="list-group">
-        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Services</button></a>
-        <a href="#"><button type="button" class="btn btn-default btn-lg btn-block">Categories</button></a>
-    </div>
-    
-    <div class="list-group launcher">
-        <a href="{{ path('catalogue_home') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="retour">
-                <span class="glyphicon glyphicon-arrow-left"></span>
-            </button>
+	<a href="{{ path('catalogue_home') }}">
+		<button type="button" class="btn btn-default btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Retour au catalogue">
+			<span class="glyphicon glyphicon-arrow-left"></span>
+        </button>
         </a>
-    </div>
 {% endblock %}
 
 {% block title %}
 	{% if categorie.libelle != '' %}
-		edition category "{{categorie.libelle}}"
+		Édition d'une catégorie "{{categorie.libelle}}"
 	{% else %}
-		new category
+		Nouvelle catégorie
 	{% endif %}
 {% endblock %}
 
 {% block content %}
 	{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}
+	<legend>Catégorie</legend>
         <div class="form-group">
-            {{ form_label(formulaire.libelle, "Libelle", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            {{ form_label(formulaire.libelle, "Libellé", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
             <div class="col-xl-8">
                 {{ form_widget(formulaire.libelle) }}
             </div>
         </div>
+	</fieldset>
+	<fieldset>
+		<legend>Validation</legend>
+        <div class="form-group">
+			{{ form_widget(formulaire.valider, {'attr': {'class': 'btn btn-default btn-success'}}) }}
+        </div>
+        <div class="form-group">
+			<a href="{{ path('catalogue_home') }}" class="btn btn-default 
+			btn-danger">Abandonner</a>
+        </div>
+	</fieldset>
     {{ form_end(formulaire) }}
 {% endblock %}

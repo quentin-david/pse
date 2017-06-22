@@ -17,7 +17,7 @@ class CategorieType extends AbstractType
     {
         $builder 
             ->add('libelle', TextType::class)
-            ->add('save', SubmitType::class); 
+            ->add('valider', SubmitType::class); 
     }
 	
 	/**
