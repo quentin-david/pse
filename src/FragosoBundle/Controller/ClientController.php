@@ -43,6 +43,11 @@ class ClientController extends Controller
         // Creation du formulaire générique de création d'un client
 		$formulaire = $this->createForm(ClientType::class, $client);
         
+        if (empty($client->getRemise())) {
+			$formulaire->getData()->setRemise('0');
+		}
+        $formulaire->setData($formulaire->getData());
+        
         //Enregistrement en base du formulaire
         if($request->isMethod('POST')){
             $formulaire->handleRequest($request);
