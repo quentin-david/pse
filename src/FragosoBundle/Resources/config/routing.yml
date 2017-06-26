@@ -65,6 +65,11 @@ creer_paiement:
         client_num: \d+
         commande_num: \d+
 
+terminer_commande:
+    path: /commande/{commande_num}/terminer
+    defaults: { _controller: FragosoBundle:Commande:terminerCommande }
+    requirements:
+        commande_num: \d+
 
 ##########   Clients    #############
 client_home:

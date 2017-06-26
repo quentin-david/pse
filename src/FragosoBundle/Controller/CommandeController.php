@@ -175,4 +175,23 @@ class CommandeController extends Controller
                                     'commande' => $commande
                             ));
     }
+    
+    /**
+     * 
+     */
+    public function terminerCommandeAction(Request $request, $commande_num)
+    {
+		//Entity Manager
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository('FragosoBundle:Commande')->find($commande_num);
+        if($commande){
+			$commande->setEtat('terminee');
+			$em->persist($commande);
+			$em->flush();
+			$this->get('session')->getFlashBag()->add('info','La commande de '.$commande->getClient()->getNomComplet().' est maintenant terminée');
+		}else{
+			$this->get('session')->getFlashBag()->add('info','Erreur : commande introuvable');
+		}
+		return $this->redirectToRoute('commande_home');
+	}
 }

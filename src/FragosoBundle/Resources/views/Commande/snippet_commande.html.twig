@@ -15,6 +15,7 @@
 {% for commande in liste_commandes %}
 	<tr>
 		<td>
+			{% if commande.etat == 'encours' %}
 			<a href="{{ path('editer_commande', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
 				<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Editer commande">
 					<span class="glyphicon glyphicon-pencil"></span>
@@ -25,6 +26,7 @@
 					<span class="glyphicon glyphicon-remove"></span>
 				</button>
 			</a>
+			{% endif %}
 			{% if commande.getResteAPayer > 0 %}
 				<a href="{{ path('creer_paiement', {'client_num': commande.client.id, 'commande_num': commande.id}) }}">
 					<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Ajouter paiement">
@@ -33,7 +35,7 @@
 				</a>
 			{% endif %}
 			{% if commande.etat != 'terminee' %}
-				<a href="#">
+				<a href="{{path('terminer_commande', {'commande_num': commande.id})}}">
 					<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Marquer comme terminée">
 						<span class="glyphicon glyphicon-ok"></span>
 					</button>
