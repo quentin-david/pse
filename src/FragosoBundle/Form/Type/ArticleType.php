@@ -24,7 +24,7 @@ class ArticleType extends AbstractType
             ->add('libelle', TextType::class)
             ->add('prix')
             ->add('tva')
-            ->add('save', SubmitType::class); 
+            ->add('valider', SubmitType::class); 
     }
 	
 	/**

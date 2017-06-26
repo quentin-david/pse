@@ -1,29 +1,59 @@
 {% extends ":Layout:layout.html.twig" %}
 
 {% block left_nav %}
-    <div class="list-group">
-        <a href="#"><button type="button" class="btn btn-primary btn-lg btn-block">Services</button></a>
-    </div>
-    
-    <div class="list-group launcher">
-        <a href="{{ path('catalogue_home') }}">
-            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="retour">
-                <span class="glyphicon glyphicon-arrow-left"></span>
-            </button>
-        </a>
-    </div>
+	<a href="{{ path('catalogue_home') }}">
+		<button type="button" class="btn btn-default btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Retour au catalogue">
+			<span class="glyphicon glyphicon-arrow-left"></span>
+        </button>
+    </a>
 {% endblock %}
 
 {% block title %}
 	{% if article.libelle != '' %}
-		edition article "{{article.libelle}}"
+		Édition de l'article "{{article.libelle}}"
 	{% else %}
-		nouvel article
+		Nouvel article
 	{% endif %}
 {% endblock %}
 
 {% block content %}
 	{{ form_start(formulaire, {'attr': {'class': 'form-inline'}}) }}
-        
+	<fieldset>
+	<legend>Article</legend>
+        <div class="form-group">
+            {{ form_label(formulaire.categorie, "Catégorie", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.categorie) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.libelle, "Libellé", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.libelle) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.prix, "Prix en €", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.prix) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_label(formulaire.tva, "T.V.A en %", {'label_attr': {'class': 'col-xl-2 control-label'}}) }}
+            <div class="col-xl-8">
+                {{ form_widget(formulaire.tva) }}
+            </div>
+        </div>
+	</fieldset>
+	<fieldset>
+		<legend>Validation</legend>
+        <div class="form-group">
+			{{ form_widget(formulaire.valider, {'attr': {'class': 'btn btn-default btn-success'}}) }}
+        </div>
+        <div class="form-group">
+			<a href="{{ path('catalogue_home') }}" class="btn btn-default 
+			btn-danger">Abandonner</a>
+        </div>
+	</fieldset>
     {{ form_end(formulaire) }}
 {% endblock %}
