@@ -58,6 +58,12 @@ editer_commande:
         client_num: \d+
         commande_num: \d+
 
+supprimer_commande:
+    path: /catalogue/commande/del/{commande_num}
+    defaults: { _controller: FragosoBundle:Commande:supprimerCommande }
+    requirements:
+        commande_num: \d+
+        
 creer_paiement:
     path: /client/{client_num}/commande/{commande_num}/paiement
     defaults: { _controller: FragosoBundle:Commande:payerCommande }

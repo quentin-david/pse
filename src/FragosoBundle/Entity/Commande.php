@@ -36,7 +36,7 @@ class Commande
     
     
     /**
-     * @ORM\OneToMany(targetEntity="FragosoBundle\Entity\CommandeDetail", cascade={"persist"}, mappedBy="commande")
+     * @ORM\OneToMany(targetEntity="FragosoBundle\Entity\CommandeDetail", cascade={"persist","remove"}, mappedBy="commande")
      */
     private $articles;
     

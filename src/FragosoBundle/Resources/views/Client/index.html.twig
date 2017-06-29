@@ -9,18 +9,18 @@
 {% endblock %}
 
 {% block title %}
-	Clients
-	<a href="{{ path('creer_client') }}">
-		<button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajouter client">
-			<span class="glyphicon glyphicon-plus"></span>
-		</button>
-	</a>	
+	Clients	
 {% endblock %}
 
 {% block content %}
 	<h3>
 		Liste des clients
 		<span class="badge">{{liste_clients|length}}</span>
+		<a href="{{ path('creer_client') }}">
+		<button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajouter client">
+			<span class="glyphicon glyphicon-plus"></span>
+		</button>
+	</a>
 	</h3>
     
 

@@ -105,15 +105,18 @@ class ClientController extends Controller
 		
 		//Liste des commandes en cours
 		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours', 'client' => $client));
-		// Liste des commandes terminées et pas encore payées
-		$liste_commandes_terminees = array();
+		
+		$liste_commandes_terminees = array(); // Liste des commandes terminées et pas encore payées
+		$liste_commandes_archivees = array(); // Liste des commandes terminées ET payées
 		foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee', 'client' => $client)) as $commande)
 		{
 			if ($commande->getResteAPayer() > 0){
 				array_push($liste_commandes_terminees, $commande);
+			}else{
+				array_push($liste_commandes_archivees, $commande);
 			}
 		}
-		$liste_commandes_archivees = $em->getRepository('FragosoBundle:Commande')->findBy(array('client' => $client), array('dateCommande' => 'DESC'));
+		//$liste_commandes_archivees = $em->getRepository('FragosoBundle:Commande')->findBy(array('client' => $client, 'etat' => 'terminee'), array('dateCommande' => 'DESC'));
 		
 		return $this->render('FragosoBundle:Client:client_detail.html.twig', array(
 									'client' => $client,

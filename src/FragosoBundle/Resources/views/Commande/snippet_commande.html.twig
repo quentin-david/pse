@@ -1,6 +1,6 @@
 <table class="table table-bordered table-striped">
 	<tr>
-		<th>Action</th>
+		<th>Actions</th>
 		<th>N° commande</th>
 		<th>Etat</th>
 		{% if client is not defined %}
@@ -21,8 +21,12 @@
 					<span class="glyphicon glyphicon-pencil"></span>
 				</button>
 			</a>
-			<a href="#">
-				<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Supprimer commande">
+			<a href="{{ path('supprimer_commande', {commande_num: commande.id}) }}">
+				{% if commande.getResteAPayer == commande.prixTotalTTC %}
+					<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Supprimer commande">
+				{% else %}
+					<button type="button" class="btn btn-md btn-default"  disabled="disabled" data-toggle="tooltip" data-placement="top" title="Commande déjà payée en partie...">
+				{% endif %}
 					<span class="glyphicon glyphicon-remove"></span>
 				</button>
 			</a>
@@ -41,6 +45,11 @@
 					</button>
 				</a>
 			{% endif %}
+			<a href="#">
+				<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Editer facture">
+					<span class="glyphicon glyphicon-check"></span>
+				</button>
+			</a>
 		</td>
 		<td>{{commande.id}}</td>
 		<td>{{commande.etat}}</td>
@@ -85,7 +94,7 @@
 		{% else %}
 			<td colspan="4">
 		{% endif %}
-			<h6>Reglements</h6>
+			<h5>Reglements</h5>
 			<ul>
 				{% for reglement in commande.reglements %}
 					<li>

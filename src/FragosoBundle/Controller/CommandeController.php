@@ -23,13 +23,14 @@ class CommandeController extends Controller
         //Liste des toutes les categories et articles
 		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours'));
 
-		//$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminees'));
-		// Liste des commandes terminées et pas encore payées
-		$liste_commandes_terminees = array();
+		$liste_commandes_terminees = array(); // Liste des commandes terminées et pas encore payées
+		$liste_commandes_archivees = array(); // Liste des commandes terminées ET payées
 		foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee')) as $commande)
 		{
 			if ($commande->getResteAPayer() > 0){
 				array_push($liste_commandes_terminees, $commande);
+			}else{
+				array_push($liste_commandes_archivees, $commande);
 			}
 		}
 		
@@ -65,7 +66,14 @@ class CommandeController extends Controller
 				}
 			}
 		}elseif($commande_etat == 'archivees'){
-			$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findAll();
+			//$liste_commandes = $em->getRepository('FragosoBundle:Commande')->findAll();
+			$liste_commandes = array();
+			foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee')) as $commande)
+			{
+				if ($commande->getResteAPayer() == 0){
+					array_push($liste_commandes, $commande);
+				}
+			}
 		}
         
         return $this->render('FragosoBundle:Commande:liste_commande.html.twig', array(
@@ -126,6 +134,31 @@ class CommandeController extends Controller
                             ));
     }
     
+    /**
+	 * Suppression d'une commande (avec demande de confirmation)
+	 */
+	public function supprimerCommandeAction(Request $request,$commande_num)
+	{
+		//Entity Manager
+        $em = $this->getDoctrine()->getManager();
+		$commande_a_supprimer = $em->getRepository('FragosoBundle:Commande')->find($commande_num);
+        
+        // Verification que la commande existe bien
+		if($request->isMethod('POST')){
+			if($commande_a_supprimer != ''){
+				$em->remove($commande_a_supprimer);
+				$em->flush();
+                // flash message
+                $this->get('session')->getFlashBag()->add('info','Commande de '.$commande_a_supprimer->getClient()->getNomComplet().' supprimée avec succès');
+			}
+			return $this->redirectToRoute('commande_home');
+		}
+        
+        return $this->render('FragosoBundle:Commande:commande_suppression.html.twig',array(
+                                    'commande' => $commande_a_supprimer
+                            ));
+	}
+    
     
     /**
      * Ajout d'un paiement à une commande
@@ -142,6 +175,9 @@ class CommandeController extends Controller
         //Creation d'un objet de type Reglement
         $reglement = new Reglement;
         
+        // test 
+        $reglement->setCommande($commande);
+        
         // Creation du formulaire générique de création d'un reglement
 		$formulaire = $this->createForm(ReglementType::class, $reglement);
         
@@ -149,12 +185,11 @@ class CommandeController extends Controller
         if($request->isMethod('POST')){
             $formulaire->handleRequest($request);
             if($formulaire->isValid()){
-                $reglement->setCommande($commande);
-                
+                //$reglement->setCommande($commande);
                 if ($formulaire["montant"]->getData() > $commande->getResteAPayer()){	
 					$this->get('session')->getFlashBag()->add('warning','Paiement trop elevé'.$formulaire["montant"]->getData());
                 }else{
-					$this->get('session')->getFlashBag()->add('info','Paiement OK');
+					$this->get('session')->getFlashBag()->add('info','Paiement de '.$formulaire["montant"]->getData().' euros accepté');
 					if ($formulaire["montant"]->getData() == $commande->getResteAPayer()){
 						$commande->setEtat('terminee');
 						$this->get('session')->getFlashBag()->add('info','La commande est entièrement payée');

@@ -73,12 +73,12 @@
 	
 	<h3>Archives de l'année {{ 'now'|date('Y')}}</h3>
 		TODO or not TODO ?
-	{#
+	
     {% if liste_commandes_archivees |length > 0 %}
 			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_archivees} %}
 	{% else %}
 		<div class="alert alert-info">pas de commande encore</div>
 	{% endif %}
-	#}
+	
     
 {% endblock %}

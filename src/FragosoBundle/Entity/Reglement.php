@@ -3,6 +3,8 @@
 namespace FragosoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Reglement
@@ -32,11 +34,13 @@ class Reglement
      * @var float
      *
      * @ORM\Column(name="montant", type="float")
+     * @Assert\Valid
      */
     private $montant;
 
 	/**
      * @ORM\ManyToOne(targetEntity="FragosoBundle\Entity\Commande", inversedBy="reglements")
+     * @Assert\Valid
      */
     private $commande;
     
@@ -46,6 +50,19 @@ class Reglement
         // Par défaut, la date de la commande est la date d'aujourd'hui
         $this->date = new \Datetime();
     }
+   
+    
+   /**
+    * Verifie dans le formulaire que le montant est valide 
+    * 
+    * @Assert\Callback
+    */
+	public function isMontantValid(ExecutionContextInterface $context, $payload)
+	{
+		if($this->getMontant() > $this->getCommande()->getResteAPayer()){
+			$context->buildViolation('Montant trop élevé !')->atPath('montant')->addViolation();
+		}
+	}
 
     /**
      * Get id
