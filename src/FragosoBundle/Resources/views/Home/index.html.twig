@@ -10,6 +10,15 @@
 		</div>
 		
 	<h3>Clients débiteurs</h3>
-		Rappel des mauvais payeurs 
-		
+		{% for client in liste_clients_debiteurs %}
+			<div class="col-lg-3">
+				<a class="panel-client" href="{{path('afficher_client', {'client_num': client.id})}}">
+					<div class="panel panel-default panel-client">
+						<h3>{{client.prenom|capitalize}} {{client.nom|upper}}</h3>
+						{#<h3>{{client.nom|upper}}</h3>#}
+						<h2>{{client.getSolde}} euros</h2>
+					</div>
+				</a>
+			</div>
+		{% endfor %}
 {% endblock %}
