@@ -45,7 +45,7 @@
 					</button>
 				</a>
 			{% endif %}
-			<a href="#">
+			<a href="{{path('generer_facture', {'commande_num': commande.id})}}">
 				<button type="button" class="btn btn-md btn-default" data-toggle="tooltip" data-placement="top" title="Editer facture">
 					<span class="glyphicon glyphicon-check"></span>
 				</button>

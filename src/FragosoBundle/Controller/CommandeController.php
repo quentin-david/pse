@@ -9,6 +9,11 @@ use FragosoBundle\Entity\Reglement;
 use FragosoBundle\Form\Type\CommandeType;
 use FragosoBundle\Form\Type\ReglementType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
+
+/*require("/usr/share/php/dompdf/dompdf.php");
+require_once '/usr/share/php/dompdf/autoload.inc.php';*/
+use Dompdf\Dompdf;
 
 class CommandeController extends Controller
 {
@@ -212,7 +217,7 @@ class CommandeController extends Controller
     }
     
     /**
-     * 
+     * Marquer commer terminée
      */
     public function terminerCommandeAction(Request $request, $commande_num)
     {
@@ -228,5 +233,28 @@ class CommandeController extends Controller
 			$this->get('session')->getFlashBag()->add('info','Erreur : commande introuvable');
 		}
 		return $this->redirectToRoute('commande_home');
+	}
+	
+	/**
+	 * Génération de la facture en PDF
+	 */
+	public function genererFactureAction($commande_num)
+	{
+		$em = $this->getDoctrine()->getManager();
+		$commande = $em->getRepository('FragosoBundle:Commande')->find($commande_num);
+		$html = $this->render('FragosoBundle:Commande:facture.html.twig', array(
+                                    'commande' => $commande
+                            ));
+                            
+        $pdf = new DOMPDF;
+        $pdf->set_base_path("/var/www/html/fragoso/web/css/");    
+        $pdf->loadHtml($html->getContent());
+        $pdf->setPaper('A4', 'landscape');
+        $pdf->render();
+        $pdf_name = 'facture-'.$commande->getClient()->getPrenom().'-'.$commande->getClient()->getNom();
+        $pdf->stream($pdf_name);
+        
+        return new Response($pdf->Output(), 200, array(
+        'Content-Type' => 'application/pdf'));
 	}
 }

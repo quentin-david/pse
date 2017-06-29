@@ -77,6 +77,12 @@ terminer_commande:
     requirements:
         commande_num: \d+
 
+generer_facture:
+    path: /commande/facture/{commande_num}
+    defaults: { _controller: FragosoBundle:Commande:genererFacture }
+    requirements:
+        commande_num: \d+
+
 ##########   Clients    #############
 client_home:
     path: /client
