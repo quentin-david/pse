@@ -17,17 +17,14 @@
 		Liste des clients
 		<span class="badge">{{liste_clients|length}}</span>
 		<a href="{{ path('creer_client') }}">
-		<button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajouter client">
-			<span class="glyphicon glyphicon-plus"></span>
-		</button>
-	</a>
+			<button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="ajouter client">
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</a>
 	</h3>
-    
-    <div id="search-client-form" style="margin-top: 12px">
-            <input type="search" class="form-control search" id="inputSearch" placeholder="Search">
-	</div>	
-
-    <table id="client-list" class="table table-striped table-bordered client-list">
+	
+	
+    <table class="table table-striped table-bordered">
         <tr>
             <th>Actions</th>
             <th>Nom</th>
@@ -37,7 +34,6 @@
             <th>Solde</th>
         </tr>
         {% for client in liste_clients %}
-        <tr>
             <td>
                 <a href="{{path('editer_client', {'client_num': client.id})}}">
                     <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="editer client">
@@ -50,7 +46,7 @@
                     </button>
                 </a>
             </td>
-            <td class="client-name">
+            <td>
 				<a href="{{path('afficher_client', {'client_num': client.id})}}">
 					{{client.nom|upper}}
 				</a>
@@ -63,37 +59,42 @@
         {% endfor %}
     </table>
 	
+	<div id="client-list" class="client-list">
+		<h3>
+			Liste des clients améliorées
+			<span class="badge">{{liste_clients|length}}</span>
+			<input type="text" class="fuzzy-search" placeholder="Search">
+		</h3>
 	
-	<h3>
-		Liste des clients améliorées
-		<span class="badge">{{liste_clients|length}}</span>
-	</h3>
-	<div id="client-list">
-		<ul class="list">
+		<div class="list">
 		{% for client in liste_clients %}
-			<li>
-			<div class="col-lg-3">
-				<a class="panel-client" href="{{path('afficher_client', {'client_num': client.id})}}">
-					<div class="panel panel-default panel-client">
-						<h2>{{client.prenom|capitalize}}</h2>
-						<h2 class="client-name">{{client.nom|upper}}</h2>
-					</div>
-				</a>
+			<div>
+				<h2 class="client-name" style="display:none">{{client.nom}}</h2>
+				<h2 class="client-prenom" style="display:none">{{client.prenom}}</h2>
+				<div class="col-lg-3">
+					<a class="panel-client" href="{{path('afficher_client', {'client_num': client.id})}}">
+						<div class="panel panel-default panel-client">
+							<h2  class="client-prenom">{{client.prenom|capitalize}}</h2>
+							<h2>{{client.nom|upper}}</h2>
+						</div>
+					</a>
+				</div>
 			</div>
-			</li>
 		{% endfor %}
-		</ul>
+		</div>	
 	</div>
 	
-	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
 	
 
 	<script>
-		/* Search option */
-		var options = {
-		  valueNames: [ 'client-name' ]
-		};
-		var clientList = new List('client-list', options);
+		$(document).ready(function(){
+			/* Search option */
+			var options = {
+			  valueNames: [ 'client-name', 'client-prenom' ]
+			};
+			var clientList = new List('client-list', options);
+		});
 	</script>
 
 {% endblock %}
