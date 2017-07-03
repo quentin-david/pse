@@ -117,7 +117,7 @@ class Commande
 		foreach ($this->reglements as $reglement){
 				$reste_a_payer -= $reglement->getMontant();
 		}
-		return $reste_a_payer;
+		return abs(round($reste_a_payer,2));
 	}
 	
 	/**

@@ -1,6 +1,12 @@
 <html>
 <head>
-	
+	<style>
+		table, th, td {
+		   border: 1px solid black;
+		   font-size: x-large;
+		   text-align: center;
+		}
+	</style>
 </head>
 <body>
 	<div style="float: right">
@@ -14,12 +20,46 @@
 	<h1 style="text-align: center; margin-top: 50px;"> Facture du {{commande.dateCommande|date('d-M-Y')}} </h1>
 	<hr>
 	
-	<h3>Liste des articles</h3>
-	<ul>
+	<table style="border: 1px solid black; width:100%;">
+		<tr style="border: 1px solid black;">
+			<th>Article</th>
+			<th>PU</th>
+			<th>TVA</th>
+			<th>Quantité</th>
+			<th>Total</th>
+		</tr>
 		{% for article in commande.articles %}
-			{{article.quantite}} x {{article.article.libelle}}<br>
+		<tr style="border: 1px solid black;">
+			<td>{{article.article.libelle}}</td>
+			<td>{{article.article.prix}}</td>
+			<td>{{article.article.tva}} %</td>
+			<td>{{article.quantite}}</td>
+			<td>{{article.getPrixTotalTTC}}</td>
+		</tr>
 		{% endfor %}
-	</ul>
+		<tr>
+			<th colspan="4">Total avant remise</th>
+			<td>{{commande.prixTotalAvantRemiseTTC}} euros</td>
+		</tr>
+		<tr>
+			<th colspan="4">Remise client</th>
+			<td>{{commande.getPrixRemise}} euros ({{commande.client.remise}} %)</td>
+		</tr>
+		<tr>
+			<th colspan="4">Total TTC</th>
+			<td>{{commande.getPrixTotalTTC}} euros</td>
+		</tr>
+	</table>
+	
+	<br><h4 style="float: right">Total TTC : {{commande.getPrixTotalTTC}} euros</h4>
 
+	
+	{#<h3>Liste des reglements</h3>
+	<ul>
+		{% for reglement in commande.reglements %}
+			<li>{{reglement.date|date('d-M-Y')}}</li>
+			<li>{{reglement.montant}} euros</li>
+		{% endfor %}
+	</ul>#}
 </body>
 </html>
