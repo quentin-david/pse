@@ -39,6 +39,11 @@ class CatalogueController extends Controller
             $categorie = new Categorie;
         }else{
             $categorie = $em->getRepository('FragosoBundle:Categorie')->find($categorie_num);
+            // Cas ou le client n'existe pas
+            if(!$categorie){
+				$this->get('session')->getFlashBag()->add('info','Categorie inconnue... (pas touche aux URL !)');
+				return $this->redirectToRoute('creer_categorie');
+			}
         }
         
         // Creation du formulaire générique de création d'une categorie
@@ -89,7 +94,7 @@ class CatalogueController extends Controller
                             ));
 	}
 	
-	/**********************   ARticles   *****************/
+	/**********************   Articles   *****************/
 	
 	/*
      * Ajout ou edition d'une categorie
@@ -104,6 +109,11 @@ class CatalogueController extends Controller
             $article = new Article;
         }else{
             $article = $em->getRepository('FragosoBundle:Article')->find($article_num);
+            // Cas ou l'article n'existe pas
+            if(!$article){
+				$this->get('session')->getFlashBag()->add('warning','Article inconnu... (pas touche aux URL !)');
+				return $this->redirectToRoute('creer_categorie');
+			}
         }
         
         // Creation du formulaire générique de création d'un article

@@ -20,14 +20,14 @@
 {% block content %}
 	<h3>Commandes en cours</h3>
 	{% if liste_commandes_encours %}
-		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours} %}
+		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours, 'table_id': 'table1'} %}
 	{% else %}
 		<div class="alert alert-info">Aucune commande en cours</div>
 	{% endif %}
 	
 	<h3>Commandes en attente de paiement</h3>
 	{% if liste_commandes_terminees %}
-		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_terminees} %}
+		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_terminees, 'table_id': 'table2'} %}
 	{% else %}
 		<div class="alert alert-info">Aucun paiement en attente</div>
 	{% endif %}

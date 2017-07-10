@@ -2,10 +2,20 @@
 
 {% block content %}      
     <div class="col-lg-12">
-        <h3>Suppression de la commande de {{commande.client.nomComplet}} du {{commande.dateCommande|date('d-M-Y')}}</h3>
+        <h3>
+			Suppression de la commande de {{commande.client.nomComplet}} du {{commande.dateCommande|date('d-M-Y')}}
+		</h3>
         <p>
-            Etes vous sur de vouloir supprimer la commande
+            Etes vous sur de vouloir supprimer la commande numéro "{{commande.id}}" de {{commande.prixTotalAvantRemiseTTC}} euros
         </p>
+        Liste articles
+        <ul>
+			{% for article in commande.articles %}
+				<li>
+					{{article.quantite}} x {{article.article.libelle}} ({{article.getPrixTotalTTC}} euros)
+				</li>
+			{% endfor %}
+		</ul>
     </div>
     
     <div class="col-lg-12">

@@ -26,11 +26,11 @@ class CommandeController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         //Liste des toutes les categories et articles
-		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours'));
+		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours'), array('dateCommande' => 'ASC'));
 
 		$liste_commandes_terminees = array(); // Liste des commandes terminées et pas encore payées
 		$liste_commandes_archivees = array(); // Liste des commandes terminées ET payées
-		foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee')) as $commande)
+		foreach($em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'terminee'), array('dateCommande' => 'ASC')) as $commande)
 		{
 			if ($commande->getResteAPayer() > 0){
 				array_push($liste_commandes_terminees, $commande);
@@ -97,12 +97,22 @@ class CommandeController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $client = $em->getRepository('FragosoBundle:Client')->find($client_num);
+        // Cas ou le client n'existe pas
+		if(!$client){
+			$this->get('session')->getFlashBag()->add('warning','Client inconnu... (pas touche aux URL !)');
+			return $this->redirectToRoute('commande_home');
+		}
         
         //Creation d'un objet de type Categorie
         if($commande_num === null){
             $commande = new Commande;
         }else{
             $commande = $em->getRepository('FragosoBundle:Commande')->find($commande_num);
+            // Cas ou la commande n'existe pas
+			if(!$commande){
+				$this->get('session')->getFlashBag()->add('warning','Commande inconnue... (pas touche aux URL !)');
+				return $this->redirectToRoute('afficher_client', array('client_num' => $client_num));
+			}
         }
         
         // Creation du formulaire générique de création d'une commande
@@ -132,7 +142,7 @@ class CommandeController extends Controller
             }
         }        
         
-        return $this->render('FragosoBundle:Commande:commande_edition.html.twig', array(
+        return $this->render('FragosoBundle:Commande:commande_edition2.html.twig', array(
                                     'formulaire' => $formulaire->createView(),
                                     'client' => $client,
                                     'commande' => $commande
@@ -147,6 +157,11 @@ class CommandeController extends Controller
 		//Entity Manager
         $em = $this->getDoctrine()->getManager();
 		$commande_a_supprimer = $em->getRepository('FragosoBundle:Commande')->find($commande_num);
+		// Cas ou la commande n'existe pas
+		if(!$commande_a_supprimer){
+			$this->get('session')->getFlashBag()->add('warning','Commande inconnue... (pas touche aux URL !)');
+			return $this->redirectToRoute('commande_home');
+		}
         
         // Verification que la commande existe bien
 		if($request->isMethod('POST')){

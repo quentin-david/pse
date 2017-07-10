@@ -38,7 +38,7 @@
 {% block content %}
 	{#<div class="row">#}
 	{% if liste_commandes %}
-		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes} %}
+		{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes, 'table_id': 'table1'} %}
 	{% else %}
 		{% if commande_etat == 'en-cours' %}
 			<div class="alert alert-info">Aucune commande en cours</div>

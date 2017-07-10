@@ -5,6 +5,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
@@ -17,14 +18,16 @@ class CommandeDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+			->add('quantite', IntegerType::class, array(
+							'attr'=> array('class'=>'col-lg-3'),
+							'label' => false,
+			))
 			->add('article',  EntityType::class, array(
 							'class' => 'FragosoBundle:Article',
 							'choice_label' => 'libelle',
-			))
-            //->add('quantite', TextType::class, array('data' => '1'));
-            ->add('quantite', TextType::class);
-            //->add('tva_appliquee')
-            //->add('prix_applique'); 
+							'attr'=> array('class'=>'col-lg-4'),
+							'label' => false,
+			));
     }
 	
 	/**

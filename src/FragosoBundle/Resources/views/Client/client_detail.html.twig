@@ -55,7 +55,7 @@
     <h3>Ses commandes en cours</h3>
    
     {% if liste_commandes_encours |length > 0 %}
-			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours} %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_encours, 'table_id': 'table1'} %}
 	{% else %}
 		<div class="alert alert-info">pas de commande en cours</div>
 	{% endif %}
@@ -64,7 +64,7 @@
 	<h3>Ses commandes à payer</h3>
 	
     {% if liste_commandes_terminees |length > 0 %}
-			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_terminees} %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_terminees, 'table_id': 'table2'} %}
 	{% else %}
 		<div class="alert alert-info">pas de commande à payer</div>
 	{% endif %}
@@ -72,10 +72,9 @@
 	
 	
 	<h3>Archives de l'année {{ 'now'|date('Y')}}</h3>
-		TODO or not TODO ?
 	
     {% if liste_commandes_archivees |length > 0 %}
-			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_archivees} %}
+			{% include "FragosoBundle:Commande:snippet_commande.html.twig" with {'liste_commandes': liste_commandes_archivees, 'table_id': 'table3'} %}
 	{% else %}
 		<div class="alert alert-info">pas de commande encore</div>
 	{% endif %}

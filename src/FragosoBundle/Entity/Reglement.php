@@ -60,7 +60,7 @@ class Reglement
 	public function isMontantValid(ExecutionContextInterface $context, $payload)
 	{
 		if($this->getMontant() > $this->getCommande()->getResteAPayer()){
-			$context->buildViolation('Montant trop élevé ! (limite : '.$this->getCommande()->getResteAPayer())->atPath('montant')->addViolation();
+			$context->buildViolation('Montant trop élevé ! (la facture est de : '.$this->getCommande()->getResteAPayer().' euros)')->atPath('montant')->addViolation();
 		}
 	}
 

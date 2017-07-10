@@ -59,7 +59,7 @@ editer_commande:
         commande_num: \d+
 
 supprimer_commande:
-    path: /catalogue/commande/del/{commande_num}
+    path: /commande/del/{commande_num}
     defaults: { _controller: FragosoBundle:Commande:supprimerCommande }
     requirements:
         commande_num: \d+

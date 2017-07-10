@@ -38,6 +38,11 @@ class ClientController extends Controller
             $client = new Client;
         }else{
             $client = $em->getRepository('FragosoBundle:Client')->find($client_num);
+            // Cas ou le client n'existe pas
+            if(!$client){
+				$this->get('session')->getFlashBag()->add('warning','Client inconnu... (pas touche aux URL !)');
+				return $this->redirectToRoute('creer_client');
+			}
         }
         
         // Creation du formulaire générique de création d'un client
@@ -104,7 +109,7 @@ class ClientController extends Controller
 		$client = $em->getRepository('FragosoBundle:Client')->find($client_num);
 		
 		//Liste des commandes en cours
-		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours', 'client' => $client));
+		$liste_commandes_encours = $em->getRepository('FragosoBundle:Commande')->findBy(array('etat' => 'encours', 'client' => $client),array('dateCommande' => 'ASC'));
 		
 		$liste_commandes_terminees = array(); // Liste des commandes terminées et pas encore payées
 		$liste_commandes_archivees = array(); // Liste des commandes terminées ET payées
