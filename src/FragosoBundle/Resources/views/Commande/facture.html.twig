@@ -17,7 +17,7 @@
 		<h3>Fragoso</h3>
 	</div>
 
-	<h1 style="text-align: center; margin-top: 50px;"> Facture du {{commande.dateCommande|date('d-M-Y')}} </h1>
+	<h1 style="text-align: center; margin-top: 50px;"> Facture du {{commande.dateCommande|localizeddate('medium', 'none', 'fr')}} </h1>
 	<hr>
 	
 	<table style="border: 1px solid black; width:100%;">
