@@ -67,7 +67,7 @@
 				</a>
 			</td>
 		{% endif %}
-		<td>{{commande.dateCommande|localizeddate('full', 'none')}}</td>
+		<td>{{commande.dateCommande|localizeddate('medium', 'short', 'fr')}}</td>
 		<td>
 			{{commande.getNbArticles}}
 			<button id="btn-detail-commande-{{commande.id}}" type="button" class="btn btn-xs btn-default btn-detail-commande-{{commande.id}}" data-toggle="tooltip" data-placement="top" title="Détail commande" style="float: right">
@@ -81,9 +81,9 @@
 				});
 			</script>
 		</td>
-		<td>{{commande.getPrixTotalTTC}} euros</td>
-		<td>{{commande.getPrixRemise}} euros<br>({{commande.remise}} %)</td>
-		<td>{{commande.resteAPayer}} euros</td>
+		<td>{{commande.getPrixTotalTTC}} €</td>
+		<td>{{commande.getPrixRemise}} €<br>({{commande.remise}} %)</td>
+		<td>{{commande.resteAPayer}} €</td>
 	</tr>
 	<tr class="detail-commande-{{commande.id}}" style="display: none">
 		<td colspan="4">
@@ -91,7 +91,7 @@
 			<ul>
 				{% for article in commande.articles %}
 					<li>
-						{{article.quantite}} x {{article.article.libelle}} ({{article.getPrixTotalTTC}} euros)
+						{{article.quantite}} x {{article.article.libelle}} ({{article.getPrixTotalTTC}} €)
 					</li>
 				{% endfor %}
 			</ul>
