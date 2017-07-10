@@ -2,7 +2,7 @@
 	<thead>
 	<tr>
 		<th>Actions</th>
-		<th>N° commande</th>
+		<th>N° cmd</th>
 		<th>Etat</th>
 		{% if client is not defined %}
 			<th>Client</th>
@@ -55,7 +55,11 @@
 			</a>
 		</td>
 		<td>{{commande.id}}</td>
-		<td>{{commande.etat}}</td>
+		{% if commande.etat == 'terminee' %}
+			<td>Terminée</td>
+		{% elseif commande.etat == 'encours' %}
+			<td>En cours</td>
+		{% endif %}
 		{% if client is not defined %}
 			<td>
 				<a href="{{ path('afficher_client', {'client_num': commande.client.id}) }}">
@@ -63,7 +67,7 @@
 				</a>
 			</td>
 		{% endif %}
-		<td>{{commande.dateCommande|date}}</td>
+		<td>{{commande.dateCommande|localizeddate('full', 'none')}}</td>
 		<td>
 			{{commande.getNbArticles}}
 			<button id="btn-detail-commande-{{commande.id}}" type="button" class="btn btn-xs btn-default btn-detail-commande-{{commande.id}}" data-toggle="tooltip" data-placement="top" title="Détail commande" style="float: right">
